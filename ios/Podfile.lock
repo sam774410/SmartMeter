@@ -6,6 +6,7 @@ PODS:
     - Charts/Core (= 3.2.1)
   - Charts/Core (3.2.1)
   - DropDown (2.3.12)
+  - Eureka (4.3.0)
   - Floaty (4.1.0)
   - Gradients (0.2.1)
   - MarqueeLabel/Swift (3.2.0)
@@ -29,6 +30,7 @@ DEPENDENCIES:
   - CDAlertView
   - Charts
   - DropDown
+  - Eureka
   - Floaty (~> 4.1.0)
   - Gradients
   - NotificationBannerSwift
@@ -49,6 +51,7 @@ SPEC REPOS:
     - CDAlertView
     - Charts
     - DropDown
+    - Eureka
     - Floaty
     - Gradients
     - MarqueeLabel
@@ -70,6 +73,7 @@ SPEC CHECKSUMS:
   CDAlertView: 89450acbd8d882868f2fc4ec6d2b6f128710c779
   Charts: f122fb70b19847fa5817d018b77d6c5a2296ab25
   DropDown: 0bcc278799ec11a3d34ce1aac9367fbbaf5423d9
+  Eureka: 6d711cb30ca333b4bc893110285a722ae3840114
   Floaty: 1a4e213f3512cf3045ef9cb0c1ff456226d1f66a
   Gradients: b8b4ace9a5551a39e9bba2cc5a1de10dbe1eee46
   MarqueeLabel: 440a502b91a9179bd98f9fff00ba1150650a1c0e
@@ -85,6 +89,6 @@ SPEC CHECKSUMS:
   TransitionButton: fb271583d9c9e4bb116b97103047e5157653f233
   "UIView+Shake": 055ad67721de1f74d29c0a1d464697e505dfc62f
 
-PODFILE CHECKSUM: c568a5af15db7a92ab8d827bc83a93d1935b3ba3
+PODFILE CHECKSUM: 06d70aebe16d10751c4936aa0b7aa1ed3130cbfa
 
 COCOAPODS: 1.5.2

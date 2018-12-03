@@ -8,12 +8,19 @@
 
 /* Begin PBXBuildFile section */
 		5ED5013CCE8962EFFBFFC967 /* Pods_finalproject.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A68161C38B9A74028C8030AB /* Pods_finalproject.framework */; };
+		711A00E021A8775200A45A18 /* mainNowViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 711A00DF21A8775200A45A18 /* mainNowViewController.swift */; };
 		712FD6E321A441DB00248881 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 712FD6E221A441DB00248881 /* AppDelegate.swift */; };
 		712FD6E521A441DB00248881 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 712FD6E421A441DB00248881 /* ViewController.swift */; };
 		712FD6E821A441DB00248881 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 712FD6E621A441DB00248881 /* Main.storyboard */; };
 		712FD6EA21A441DC00248881 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 712FD6E921A441DC00248881 /* Assets.xcassets */; };
 		712FD6ED21A441DC00248881 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 712FD6EB21A441DC00248881 /* LaunchScreen.storyboard */; };
 		71312F5E21A64C47002884CA /* Walkthrough.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 71312F5D21A64C47002884CA /* Walkthrough.storyboard */; };
+		7162864F21AB961300D40850 /* config.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7162864E21AB961300D40850 /* config.swift */; };
+		7162BC4121A945EE004287E4 /* mainMoreTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7162BC4021A945EE004287E4 /* mainMoreTableViewCell.swift */; };
+		7176F1A921A8F055004F2C24 /* userController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7176F1A821A8F055004F2C24 /* userController.swift */; };
+		7176F1AB21A8F6BF004F2C24 /* mainHistoryViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7176F1AA21A8F6BF004F2C24 /* mainHistoryViewController.swift */; };
+		7176F1AD21A8F72D004F2C24 /* mainApplyPowerOutViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7176F1AC21A8F72D004F2C24 /* mainApplyPowerOutViewController.swift */; };
+		7176F1AF21A8F73D004F2C24 /* mainMoreViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7176F1AE21A8F73D004F2C24 /* mainMoreViewController.swift */; };
 		71F090F021A501DC00656B4C /* loginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71F090EF21A501DC00656B4C /* loginViewController.swift */; };
 		71F090F221A59C7100656B4C /* registerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71F090F121A59C7100656B4C /* registerViewController.swift */; };
 /* End PBXBuildFile section */
@@ -21,6 +28,7 @@
 /* Begin PBXFileReference section */
 		68C9A211AEB7A29015804A76 /* Pods-finalproject.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-finalproject.release.xcconfig"; path = "Pods/Target Support Files/Pods-finalproject/Pods-finalproject.release.xcconfig"; sourceTree = "<group>"; };
 		6B6F52A226F252D2109BD990 /* Pods-finalproject.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-finalproject.debug.xcconfig"; path = "Pods/Target Support Files/Pods-finalproject/Pods-finalproject.debug.xcconfig"; sourceTree = "<group>"; };
+		711A00DF21A8775200A45A18 /* mainNowViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = mainNowViewController.swift; sourceTree = "<group>"; };
 		712FD6DF21A441DB00248881 /* finalproject.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = finalproject.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		712FD6E221A441DB00248881 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		712FD6E421A441DB00248881 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -29,6 +37,12 @@
 		712FD6EC21A441DC00248881 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		712FD6EE21A441DC00248881 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		71312F5D21A64C47002884CA /* Walkthrough.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Walkthrough.storyboard; sourceTree = "<group>"; };
+		7162864E21AB961300D40850 /* config.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = config.swift; sourceTree = "<group>"; };
+		7162BC4021A945EE004287E4 /* mainMoreTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = mainMoreTableViewCell.swift; sourceTree = "<group>"; };
+		7176F1A821A8F055004F2C24 /* userController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = userController.swift; sourceTree = "<group>"; };
+		7176F1AA21A8F6BF004F2C24 /* mainHistoryViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = mainHistoryViewController.swift; sourceTree = "<group>"; };
+		7176F1AC21A8F72D004F2C24 /* mainApplyPowerOutViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = mainApplyPowerOutViewController.swift; sourceTree = "<group>"; };
+		7176F1AE21A8F73D004F2C24 /* mainMoreViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = mainMoreViewController.swift; sourceTree = "<group>"; };
 		71F090EF21A501DC00656B4C /* loginViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = loginViewController.swift; sourceTree = "<group>"; };
 		71F090F121A59C7100656B4C /* registerViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = registerViewController.swift; sourceTree = "<group>"; };
 		A68161C38B9A74028C8030AB /* Pods_finalproject.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_finalproject.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -49,6 +63,8 @@
 		712FA7B621A46AFC0036A2A7 /* Model */ = {
 			isa = PBXGroup;
 			children = (
+				7162864E21AB961300D40850 /* config.swift */,
+				7176F1A821A8F055004F2C24 /* userController.swift */,
 			);
 			name = Model;
 			sourceTree = "<group>";
@@ -65,10 +81,15 @@
 		712FA7B821A46B140036A2A7 /* Controller */ = {
 			isa = PBXGroup;
 			children = (
+				711A00DF21A8775200A45A18 /* mainNowViewController.swift */,
 				712FD6E221A441DB00248881 /* AppDelegate.swift */,
 				712FD6E421A441DB00248881 /* ViewController.swift */,
 				71F090EF21A501DC00656B4C /* loginViewController.swift */,
 				71F090F121A59C7100656B4C /* registerViewController.swift */,
+				7176F1AA21A8F6BF004F2C24 /* mainHistoryViewController.swift */,
+				7176F1AC21A8F72D004F2C24 /* mainApplyPowerOutViewController.swift */,
+				7176F1AE21A8F73D004F2C24 /* mainMoreViewController.swift */,
+				7162BC4021A945EE004287E4 /* mainMoreTableViewCell.swift */,
 			);
 			name = Controller;
 			sourceTree = "<group>";
@@ -211,6 +232,7 @@
 				"${BUILT_PRODUCTS_DIR}/CDAlertView/CDAlertView.framework",
 				"${BUILT_PRODUCTS_DIR}/Charts/Charts.framework",
 				"${BUILT_PRODUCTS_DIR}/DropDown/DropDown.framework",
+				"${BUILT_PRODUCTS_DIR}/Eureka/Eureka.framework",
 				"${BUILT_PRODUCTS_DIR}/Floaty/Floaty.framework",
 				"${BUILT_PRODUCTS_DIR}/Gradients/Gradients.framework",
 				"${BUILT_PRODUCTS_DIR}/MarqueeLabel/MarqueeLabel.framework",
@@ -233,6 +255,7 @@
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/CDAlertView.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Charts.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/DropDown.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Eureka.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Floaty.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Gradients.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/MarqueeLabel.framework",
@@ -278,10 +301,17 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				711A00E021A8775200A45A18 /* mainNowViewController.swift in Sources */,
+				7162BC4121A945EE004287E4 /* mainMoreTableViewCell.swift in Sources */,
 				712FD6E521A441DB00248881 /* ViewController.swift in Sources */,
+				7176F1A921A8F055004F2C24 /* userController.swift in Sources */,
 				712FD6E321A441DB00248881 /* AppDelegate.swift in Sources */,
+				7176F1AB21A8F6BF004F2C24 /* mainHistoryViewController.swift in Sources */,
 				71F090F021A501DC00656B4C /* loginViewController.swift in Sources */,
 				71F090F221A59C7100656B4C /* registerViewController.swift in Sources */,
+				7176F1AF21A8F73D004F2C24 /* mainMoreViewController.swift in Sources */,
+				7162864F21AB961300D40850 /* config.swift in Sources */,
+				7176F1AD21A8F72D004F2C24 /* mainApplyPowerOutViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

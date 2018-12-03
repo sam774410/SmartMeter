@@ -25,4 +25,5 @@ target 'finalproject' do
   pod "Pastel"
   pod "Floaty", "~> 4.1.0"
   pod 'SwiftyBeaver'
+  pod 'Eureka'
 end

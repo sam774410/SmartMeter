@@ -7,24 +7,48 @@
 //
 
 import UIKit
+import LocalAuthentication
 
 class mainApplyPowerOutViewController: UIViewController {
 
+    let log = MYLOG().log
+    var isAuthentication: Bool = false
+    
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        // Do any additional setup after loading the view.
+        auththentication()
     }
     
 
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destination.
-        // Pass the selected object to the new view controller.
+    func auththentication() {
+        
+        let context = LAContext()
+        var error: NSError?
+        let description: String = "驗證起來！"
+        
+        if context.canEvaluatePolicy(.deviceOwnerAuthenticationWithBiometrics, error: &error) {
+            
+            context.evaluatePolicy(.deviceOwnerAuthenticationWithBiometrics, localizedReason: description) { (success, error) in
+                
+                if (success) {
+                    
+                    self.log.info("user斷電驗證成功")
+                    
+                    self.isAuthentication = true
+                } else {
+                    
+                    self.log.info("user斷電驗證失敗")
+                    
+                    self.isAuthentication = false
+                }
+            }
+        } else {
+            
+            let errorDescription = error?.userInfo["NSLocalizedDescription"] ?? ""
+            print(errorDescription) // Biometry is not available on this device.
+        }
     }
-    */
+    
 
 }

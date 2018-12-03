@@ -11,17 +11,15 @@ import TextFieldEffects
 import UIView_Shake
 import Alamofire
 import SwiftyJSON
-import SwiftyBeaver
 import TransitionButton
 import Pastel
 import PMSuperButton
 
 
 class loginViewController: UIViewController, UITextFieldDelegate {
-
-    //logging
-    let log = SwiftyBeaver.self
     
+    //logging
+    let log = MYLOG().log
     var infoFromRegisterVC: String?
     
     @IBOutlet weak var email_Tf: HoshiTextField!
@@ -38,15 +36,25 @@ class loginViewController: UIViewController, UITextFieldDelegate {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        
+        self.navigationController?.setNavigationBarHidden(true, animated: true)
+        
         setUp()
-       
     }
     
-    override func viewDidAppear(_ animated: Bool) {
+    
+    
+    override func viewWillAppear(_ animated: Bool) {
+        
         
         setBG()
         
+        UIView.animate(withDuration: 0.5) {
+            
+            self.register_Btn_Outlet.isHidden = false
+        }
+        
+        //拿到註冊成功資料
         if let info = infoFromRegisterVC{
             log.debug(info)
         }
@@ -59,9 +67,17 @@ class loginViewController: UIViewController, UITextFieldDelegate {
         
         Timer.scheduledTimer(withTimeInterval: 1, repeats: false) { (Timer) in
             
-            self.login_Btn_Outlet.stopAnimation()
+            //self.login_Btn_Outlet.stopAnimation()
             
-            //self.setBtnAlert(textField: self.email_Tf, description: "hi")
+            //tf alert
+            //self.setTfAlert(textField: self.email_Tf, description: "hi")\
+            self.register_Btn_Outlet.isHidden = true
+            self.login_Btn_Outlet.stopAnimation(animationStyle: .expand, revertAfterDelay: 1, completion: {
+                
+                
+                let mainVC = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "mainVC")
+                self.present(mainVC, animated: true, completion: nil)
+            })
         }
     }
     
@@ -83,8 +99,8 @@ class loginViewController: UIViewController, UITextFieldDelegate {
         password_Tf.delegate = self
         
         
-        setLogging()
         setloginBtn(loginBtn: login_Btn_Outlet)
+        //圓形邊角
         setBtn(button: register_Btn_Outlet)
         setBtnShadow(button: login_Btn_Outlet)
     }
@@ -118,18 +134,10 @@ class loginViewController: UIViewController, UITextFieldDelegate {
         button.clipsToBounds = true
     }
     
-    func setLogging() {
-        
-        let console = ConsoleDestination()
-        let file = FileDestination()  // log to default swiftybeaver.log file
-        log.addDestination(console)
-        log.addDestination(file)
-    }
     
     func setBG (){
         
         let pastelView = PastelView(frame: view.bounds)
-        
         // Custom Direction
         pastelView.startPastelPoint = .bottomLeft
         pastelView.endPastelPoint = .topRight
@@ -150,7 +158,7 @@ class loginViewController: UIViewController, UITextFieldDelegate {
         view.insertSubview(pastelView, at: 0)
     }
     
-    func setBtnAlert(textField: HoshiTextField, description: String) {
+    func setTfAlert(textField: HoshiTextField, description: String) {
         
         let tfOrignPlaceHolder: String = textField.placeholder!
         

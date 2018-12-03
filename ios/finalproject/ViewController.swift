@@ -7,20 +7,17 @@
 //
 
 import UIKit
-import SwiftyBeaver
 import BWWalkthrough
 
 class ViewController: UIViewController, BWWalkthroughViewControllerDelegate {
     
     //logging
-    let log = SwiftyBeaver.self
+    let log = MYLOG().log
     let logo = UIImageView()
     let backGround = UIImageView()
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        
-        setLogging()
+
 
         
         backGround.image = UIImage(named: "15136")
@@ -73,13 +70,6 @@ class ViewController: UIViewController, BWWalkthroughViewControllerDelegate {
         }
     }
 
-    func setLogging() {
-        
-        let console = ConsoleDestination()
-        let file = FileDestination()  // log to default swiftybeaver.log file
-        log.addDestination(console)
-        log.addDestination(file)
-    }
     
     //introduction
     func showIntro(){
