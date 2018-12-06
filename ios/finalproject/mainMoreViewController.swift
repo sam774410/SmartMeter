@@ -15,9 +15,9 @@ class mainMoreViewController: UIViewController, UITableViewDataSource, UITableVi
     
     
     let log = MYLOG().log
-    let funcArray = ["關於我們", "版本", "登出"]
-    let iconArray = ["about-us", "info", "exit"]
-    let descriptionArray = ["➢", "v1.0", ""]
+    let funcArray = ["個人資料管理", "密碼變更", "版本", "登出"]
+    let iconArray = ["user_update", "key", "about-us", "info", "exit"]
+    let descriptionArray = ["➢", "➢", CONFIG().app_version, ""]
     
     override var preferredStatusBarStyle: UIStatusBarStyle {
         
@@ -60,6 +60,18 @@ class mainMoreViewController: UIViewController, UITableViewDataSource, UITableVi
             alert.add(action: ok)
             alert.add(action: cancel)
             alert.show()
+            
+        }else if funcArray[indexPath.row] == "個人資料管理"{
+            
+            let userUpdateVC = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "userUpdateVC")
+            
+            self.navigationController?.pushViewController(userUpdateVC, animated: true)
+            
+        }else if funcArray[indexPath.row] == "密碼變更"{
+            
+            let userPwdUpdateVC = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "userPwdUpdateVC")
+            
+            self.navigationController?.pushViewController(userPwdUpdateVC, animated: true)
         }
     }
     
@@ -72,4 +84,7 @@ class mainMoreViewController: UIViewController, UITableViewDataSource, UITableVi
         return cell
     }
    
+    @IBAction func userUpdate(_ segue:UIStoryboardSegue) {
+        
+    }
 }

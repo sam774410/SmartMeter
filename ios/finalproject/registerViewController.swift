@@ -29,7 +29,7 @@ class registerViewController: FormViewController {
     
     @IBAction func cancelBtn(_ sender: UIBarButtonItem) {
         
-        self.navigationController?.dismiss(animated: true, completion: nil)
+        self.navigationController?.popViewController(animated: true)
     }
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -44,7 +44,7 @@ class registerViewController: FormViewController {
             
             if let loginVC = segue.destination as? loginViewController{
                 
-                //loginVC.infoFromRegisterVC = "hi"
+                loginVC.infoFromRegisterVC = newUser
             }
         }
     }
@@ -354,7 +354,7 @@ class registerViewController: FormViewController {
                 $0.cell.tintColor = .red
                 }.onCellSelection({ (cell, ButtonRow) in
                     
-                    self.navigationController?.dismiss(animated: true, completion: nil)
+                    self.navigationController?.popViewController(animated: true)
                 })
     }
     
@@ -434,11 +434,25 @@ class registerViewController: FormViewController {
             if pwdConfirm {
                 
                 //register (ped encoding)
-                //let parameters = [] as [String : Any]
+                let parameters = ["Account": acct, "Password": Encoding().base64Encoding(str: pwd), "EmailAddress": email, "ContactPhoneNum": contact, "ContactAddress": address, "FirstName": first, "LastName": last, "IdentityNum": id] as [String : Any]
+                
+                self.log.debug(parameters)
+                
+                USER_API().user_register(keys: parameters) { (ok)  in
+                    
+                    if ok {
+                        
+                        self.log.debug("success")
+                        self.performSegue(withIdentifier: "backTologinVC", sender: nil)
+                    } else {
+                        
+                        self.log.debug("fail")
+                    }
+                }
             }
         } else {
             
-            let alert = CDAlertView(title: "警告", message: "請確實輸入資料", type: CDAlertViewType.warning)
+            let alert = CDAlertView(title: "警告", message: "請確實輸入資料", type: CDAlertViewType.error)
             let okAction = CDAlertViewAction(title: "確認")
             alert.add(action: okAction)
             alert.show()

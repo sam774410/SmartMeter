@@ -3,7 +3,7 @@ var mysql = require('mysql');
 var bodyParser = require('body-parser');
 
 var countys = require('./routers/countys');
-
+var users = require('./routers/users');
 
 var app = express();
 
@@ -40,7 +40,7 @@ app.get('/', function(req, res, next) {
 	res.send('Hello');
 });
 
-
+app.use('/users',users);
 app.use('/countys',countys);
 
 
