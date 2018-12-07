@@ -233,7 +233,7 @@ class loginViewController: UIViewController, UITextFieldDelegate {
 
     @IBAction func forgetPwd(_ sender: UIButton) {
         
-        let alert = UIAlertController(title: "忘記密碼", message: "請輸入帳號", preferredStyle: .alert)
+        let alert = UIAlertController(title: "請輸入帳號", message: "密碼將寄至您註冊時的信箱", preferredStyle: .alert)
         
         
         alert.addTextField { (textField) in
@@ -241,7 +241,7 @@ class loginViewController: UIViewController, UITextFieldDelegate {
         }
         
         
-        alert.addAction(UIAlertAction(title: "OK", style: .default, handler: { [weak alert] (_) in
+        alert.addAction(UIAlertAction(title: "確認", style: .default, handler: { [weak alert] (_) in
             let textField = alert?.textFields![0] // Force unwrapping because we know it exists.
             //print("Text field: \(textField?.text)")
             

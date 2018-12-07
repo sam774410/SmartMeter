@@ -1,0 +1,6 @@
+framework module StepProgressView {
+  umbrella header "StepProgressView-umbrella.h"
+
+  export *
+  module * { export * }
+}

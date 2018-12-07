@@ -8,47 +8,49 @@
 
 import UIKit
 import LocalAuthentication
+import StepProgressView
 
 class mainApplyPowerOutViewController: UIViewController {
 
     let log = MYLOG().log
-    var isAuthentication: Bool = false
+    
+    @IBOutlet weak var applyContainerView: UIView!
+    
+    @IBOutlet weak var containerView: UIView!
+    
+    @IBOutlet weak var stepView: StepProgressView!
+    
+    override var preferredStatusBarStyle: UIStatusBarStyle {
+        
+        return .lightContent
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        auththentication()
-    }
-    
-
-    func auththentication() {
         
-        let context = LAContext()
-        var error: NSError?
-        let description: String = "驗證起來！"
+        //self.containerView.isHidden = true
+        stepViewSetUp(curretStep: 2)
         
-        if context.canEvaluatePolicy(.deviceOwnerAuthenticationWithBiometrics, error: &error) {
-            
-            context.evaluatePolicy(.deviceOwnerAuthenticationWithBiometrics, localizedReason: description) { (success, error) in
-                
-                if (success) {
-                    
-                    self.log.info("user斷電驗證成功")
-                    
-                    self.isAuthentication = true
-                } else {
-                    
-                    self.log.info("user斷電驗證失敗")
-                    
-                    self.isAuthentication = false
-                }
-            }
-        } else {
-            
-            let errorDescription = error?.userInfo["NSLocalizedDescription"] ?? ""
-            print(errorDescription) // Biometry is not available on this device.
-        }
+       
     }
-    
+    func stepViewSetUp(curretStep: Int){
 
+        stepView.steps = ["First", "Second", "Third", "Last"]
+        stepView.details = [0: "The beginning", 3: "The end"] // appears below step title
+
+        stepView.stepShape = .circle
+        stepView.firstStepShape = .downTriangle
+        stepView.lastStepShape = .triangle
+
+        stepView.lineWidth = 2.5
+        stepView.verticalPadding = 50 // between steps (0 => default based on textFont)
+        stepView.horizontalPadding =  8 // between shape and text (0 => default based on textFont)
+
+        stepView.currentStep = curretStep
+    }
+
+    
+    
+    
 }

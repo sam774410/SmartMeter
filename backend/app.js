@@ -1,6 +1,7 @@
 var express = require('express');
 var mysql = require('mysql');
 var bodyParser = require('body-parser');
+require('dotenv').config();
 
 var countys = require('./routers/countys');
 var users = require('./routers/users');
@@ -14,10 +15,10 @@ app.use(bodyParser.urlencoded({extended:false}));
 
 //Database connection
 var con = mysql.createConnection({
-    host: "140.115.82.72",
-    user: "sam",
-    password: "1114",
-    database: "wenhe"
+    host: process.env.DB_HOST,
+    user: process.env.DB_USER,
+    password: process.env.DB_PWD,
+    database: process.env.DB_NAME
 });
 
 con.connect(function(err) {

@@ -26,6 +26,7 @@
 		71F0AB1821B6E25100300E1E /* userUpdateViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71F0AB1721B6E25100300E1E /* userUpdateViewController.swift */; };
 		71F0AB1A21B6E44900300E1E /* userPwdUpdateViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71F0AB1921B6E44900300E1E /* userPwdUpdateViewController.swift */; };
 		71F0AB1C21B7D01900300E1E /* alert.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71F0AB1B21B7D01900300E1E /* alert.swift */; };
+		71F0AB1E21BAB97300300E1E /* applyProgressViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71F0AB1D21BAB97300300E1E /* applyProgressViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -51,6 +52,7 @@
 		71F0AB1721B6E25100300E1E /* userUpdateViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = userUpdateViewController.swift; sourceTree = "<group>"; };
 		71F0AB1921B6E44900300E1E /* userPwdUpdateViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = userPwdUpdateViewController.swift; sourceTree = "<group>"; };
 		71F0AB1B21B7D01900300E1E /* alert.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = alert.swift; sourceTree = "<group>"; };
+		71F0AB1D21BAB97300300E1E /* applyProgressViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = applyProgressViewController.swift; sourceTree = "<group>"; };
 		A68161C38B9A74028C8030AB /* Pods_finalproject.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_finalproject.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
@@ -98,6 +100,7 @@
 				7162BC4021A945EE004287E4 /* mainMoreTableViewCell.swift */,
 				71F0AB1721B6E25100300E1E /* userUpdateViewController.swift */,
 				71F0AB1921B6E44900300E1E /* userPwdUpdateViewController.swift */,
+				71F0AB1D21BAB97300300E1E /* applyProgressViewController.swift */,
 			);
 			name = Controller;
 			sourceTree = "<group>";
@@ -245,12 +248,14 @@
 				"${BUILT_PRODUCTS_DIR}/Floaty/Floaty.framework",
 				"${BUILT_PRODUCTS_DIR}/Gradients/Gradients.framework",
 				"${BUILT_PRODUCTS_DIR}/MarqueeLabel/MarqueeLabel.framework",
+				"${BUILT_PRODUCTS_DIR}/MiniLayout/MiniLayout.framework",
 				"${BUILT_PRODUCTS_DIR}/NotificationBannerSwift/NotificationBannerSwift.framework",
 				"${BUILT_PRODUCTS_DIR}/PMSuperButton/PMSuperButton.framework",
 				"${BUILT_PRODUCTS_DIR}/Pastel/Pastel.framework",
 				"${BUILT_PRODUCTS_DIR}/PullToRefresher/PullToRefresh.framework",
 				"${BUILT_PRODUCTS_DIR}/SVProgressHUD/SVProgressHUD.framework",
 				"${BUILT_PRODUCTS_DIR}/SnapKit/SnapKit.framework",
+				"${BUILT_PRODUCTS_DIR}/StepProgressView/StepProgressView.framework",
 				"${BUILT_PRODUCTS_DIR}/SwiftyBeaver/SwiftyBeaver.framework",
 				"${BUILT_PRODUCTS_DIR}/SwiftyJSON/SwiftyJSON.framework",
 				"${BUILT_PRODUCTS_DIR}/TextFieldEffects/TextFieldEffects.framework",
@@ -268,12 +273,14 @@
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Floaty.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Gradients.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/MarqueeLabel.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/MiniLayout.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/NotificationBannerSwift.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/PMSuperButton.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Pastel.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/PullToRefresh.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SVProgressHUD.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SnapKit.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/StepProgressView.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SwiftyBeaver.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SwiftyJSON.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/TextFieldEffects.framework",
@@ -322,6 +329,7 @@
 				71F090F221A59C7100656B4C /* registerViewController.swift in Sources */,
 				7176F1AF21A8F73D004F2C24 /* mainMoreViewController.swift in Sources */,
 				7162864F21AB961300D40850 /* config.swift in Sources */,
+				71F0AB1E21BAB97300300E1E /* applyProgressViewController.swift in Sources */,
 				71F0AB1821B6E25100300E1E /* userUpdateViewController.swift in Sources */,
 				7176F1AD21A8F72D004F2C24 /* mainApplyPowerOutViewController.swift in Sources */,
 			);

@@ -26,4 +26,5 @@ target 'finalproject' do
   pod "Floaty", "~> 4.1.0"
   pod 'SwiftyBeaver'
   pod 'Eureka'
+  pod 'StepProgressView'
 end
