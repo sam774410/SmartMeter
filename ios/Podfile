@@ -27,4 +27,6 @@ target 'finalproject' do
   pod 'SwiftyBeaver'
   pod 'Eureka'
   pod 'StepProgressView'
+  pod 'Hero'
+  pod 'PullToRefresher', '~> 3.1'
 end

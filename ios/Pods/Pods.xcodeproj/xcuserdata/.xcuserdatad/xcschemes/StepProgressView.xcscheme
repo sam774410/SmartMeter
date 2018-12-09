@@ -14,7 +14,7 @@
             buildForArchiving = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "5CEA925002CB25CB526B2A03040F72CD"
+               BlueprintIdentifier = "ED488FDEFFB3F50E6C6D0042E10F2B7A"
                BlueprintName = "StepProgressView"
                ReferencedContainer = "container:Pods.xcodeproj"
                BuildableName = "StepProgressView.framework">

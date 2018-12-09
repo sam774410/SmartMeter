@@ -21,6 +21,7 @@
 		7176F1AB21A8F6BF004F2C24 /* mainHistoryViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7176F1AA21A8F6BF004F2C24 /* mainHistoryViewController.swift */; };
 		7176F1AD21A8F72D004F2C24 /* mainApplyPowerOutViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7176F1AC21A8F72D004F2C24 /* mainApplyPowerOutViewController.swift */; };
 		7176F1AF21A8F73D004F2C24 /* mainMoreViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7176F1AE21A8F73D004F2C24 /* mainMoreViewController.swift */; };
+		717E5DA321BBCD4F00A79473 /* newsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 717E5DA221BBCD4F00A79473 /* newsViewController.swift */; };
 		71F090F021A501DC00656B4C /* loginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71F090EF21A501DC00656B4C /* loginViewController.swift */; };
 		71F090F221A59C7100656B4C /* registerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71F090F121A59C7100656B4C /* registerViewController.swift */; };
 		71F0AB1821B6E25100300E1E /* userUpdateViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71F0AB1721B6E25100300E1E /* userUpdateViewController.swift */; };
@@ -47,6 +48,7 @@
 		7176F1AA21A8F6BF004F2C24 /* mainHistoryViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = mainHistoryViewController.swift; sourceTree = "<group>"; };
 		7176F1AC21A8F72D004F2C24 /* mainApplyPowerOutViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = mainApplyPowerOutViewController.swift; sourceTree = "<group>"; };
 		7176F1AE21A8F73D004F2C24 /* mainMoreViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = mainMoreViewController.swift; sourceTree = "<group>"; };
+		717E5DA221BBCD4F00A79473 /* newsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = newsViewController.swift; sourceTree = "<group>"; };
 		71F090EF21A501DC00656B4C /* loginViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = loginViewController.swift; sourceTree = "<group>"; };
 		71F090F121A59C7100656B4C /* registerViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = registerViewController.swift; sourceTree = "<group>"; };
 		71F0AB1721B6E25100300E1E /* userUpdateViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = userUpdateViewController.swift; sourceTree = "<group>"; };
@@ -101,6 +103,7 @@
 				71F0AB1721B6E25100300E1E /* userUpdateViewController.swift */,
 				71F0AB1921B6E44900300E1E /* userPwdUpdateViewController.swift */,
 				71F0AB1D21BAB97300300E1E /* applyProgressViewController.swift */,
+				717E5DA221BBCD4F00A79473 /* newsViewController.swift */,
 			);
 			name = Controller;
 			sourceTree = "<group>";
@@ -247,6 +250,7 @@
 				"${BUILT_PRODUCTS_DIR}/Eureka/Eureka.framework",
 				"${BUILT_PRODUCTS_DIR}/Floaty/Floaty.framework",
 				"${BUILT_PRODUCTS_DIR}/Gradients/Gradients.framework",
+				"${BUILT_PRODUCTS_DIR}/Hero/Hero.framework",
 				"${BUILT_PRODUCTS_DIR}/MarqueeLabel/MarqueeLabel.framework",
 				"${BUILT_PRODUCTS_DIR}/MiniLayout/MiniLayout.framework",
 				"${BUILT_PRODUCTS_DIR}/NotificationBannerSwift/NotificationBannerSwift.framework",
@@ -272,6 +276,7 @@
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Eureka.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Floaty.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Gradients.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Hero.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/MarqueeLabel.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/MiniLayout.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/NotificationBannerSwift.framework",
@@ -332,6 +337,7 @@
 				71F0AB1E21BAB97300300E1E /* applyProgressViewController.swift in Sources */,
 				71F0AB1821B6E25100300E1E /* userUpdateViewController.swift in Sources */,
 				7176F1AD21A8F72D004F2C24 /* mainApplyPowerOutViewController.swift in Sources */,
+				717E5DA321BBCD4F00A79473 /* newsViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

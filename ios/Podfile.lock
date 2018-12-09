@@ -9,6 +9,7 @@ PODS:
   - Eureka (4.3.0)
   - Floaty (4.1.0)
   - Gradients (0.2.1)
+  - Hero (1.4.0)
   - MarqueeLabel/Swift (3.2.0)
   - MiniLayout (1.3.0)
   - NotificationBannerSwift (1.8.0):
@@ -36,6 +37,7 @@ DEPENDENCIES:
   - Eureka
   - Floaty (~> 4.1.0)
   - Gradients
+  - Hero
   - NotificationBannerSwift
   - Pastel
   - PMSuperButton
@@ -58,6 +60,7 @@ SPEC REPOS:
     - Eureka
     - Floaty
     - Gradients
+    - Hero
     - MarqueeLabel
     - MiniLayout
     - NotificationBannerSwift
@@ -82,6 +85,7 @@ SPEC CHECKSUMS:
   Eureka: 6d711cb30ca333b4bc893110285a722ae3840114
   Floaty: 1a4e213f3512cf3045ef9cb0c1ff456226d1f66a
   Gradients: b8b4ace9a5551a39e9bba2cc5a1de10dbe1eee46
+  Hero: bac92350d7201a1a940003e0767c7b52ce7c99a1
   MarqueeLabel: 440a502b91a9179bd98f9fff00ba1150650a1c0e
   MiniLayout: 57c42e7e44cb47a9ef95650970ee1d2718725518
   NotificationBannerSwift: 49fc4be7fabada55b189b50e72184c92edd5f7f7
@@ -97,6 +101,6 @@ SPEC CHECKSUMS:
   TransitionButton: fb271583d9c9e4bb116b97103047e5157653f233
   "UIView+Shake": 055ad67721de1f74d29c0a1d464697e505dfc62f
 
-PODFILE CHECKSUM: 8c19d042bc3463edbb69d851e93cc06c63a7b3c8
+PODFILE CHECKSUM: 77afb1c1805515bda008f1dd22276761e2207e9f
 
 COCOAPODS: 1.5.2
