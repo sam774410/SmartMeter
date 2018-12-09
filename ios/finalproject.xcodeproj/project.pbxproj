@@ -22,6 +22,8 @@
 		7176F1AD21A8F72D004F2C24 /* mainApplyPowerOutViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7176F1AC21A8F72D004F2C24 /* mainApplyPowerOutViewController.swift */; };
 		7176F1AF21A8F73D004F2C24 /* mainMoreViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7176F1AE21A8F73D004F2C24 /* mainMoreViewController.swift */; };
 		717E5DA321BBCD4F00A79473 /* newsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 717E5DA221BBCD4F00A79473 /* newsViewController.swift */; };
+		719CAE5121BD5DDD00C81EB7 /* mainPublicInfoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 719CAE5021BD5DDD00C81EB7 /* mainPublicInfoViewController.swift */; };
+		719CAE5321BD60D200C81EB7 /* mainPublicTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 719CAE5221BD60D200C81EB7 /* mainPublicTableViewCell.swift */; };
 		71F090F021A501DC00656B4C /* loginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71F090EF21A501DC00656B4C /* loginViewController.swift */; };
 		71F090F221A59C7100656B4C /* registerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71F090F121A59C7100656B4C /* registerViewController.swift */; };
 		71F0AB1821B6E25100300E1E /* userUpdateViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71F0AB1721B6E25100300E1E /* userUpdateViewController.swift */; };
@@ -49,6 +51,8 @@
 		7176F1AC21A8F72D004F2C24 /* mainApplyPowerOutViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = mainApplyPowerOutViewController.swift; sourceTree = "<group>"; };
 		7176F1AE21A8F73D004F2C24 /* mainMoreViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = mainMoreViewController.swift; sourceTree = "<group>"; };
 		717E5DA221BBCD4F00A79473 /* newsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = newsViewController.swift; sourceTree = "<group>"; };
+		719CAE5021BD5DDD00C81EB7 /* mainPublicInfoViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = mainPublicInfoViewController.swift; sourceTree = "<group>"; };
+		719CAE5221BD60D200C81EB7 /* mainPublicTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = mainPublicTableViewCell.swift; sourceTree = "<group>"; };
 		71F090EF21A501DC00656B4C /* loginViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = loginViewController.swift; sourceTree = "<group>"; };
 		71F090F121A59C7100656B4C /* registerViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = registerViewController.swift; sourceTree = "<group>"; };
 		71F0AB1721B6E25100300E1E /* userUpdateViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = userUpdateViewController.swift; sourceTree = "<group>"; };
@@ -104,6 +108,8 @@
 				71F0AB1921B6E44900300E1E /* userPwdUpdateViewController.swift */,
 				71F0AB1D21BAB97300300E1E /* applyProgressViewController.swift */,
 				717E5DA221BBCD4F00A79473 /* newsViewController.swift */,
+				719CAE5021BD5DDD00C81EB7 /* mainPublicInfoViewController.swift */,
+				719CAE5221BD60D200C81EB7 /* mainPublicTableViewCell.swift */,
 			);
 			name = Controller;
 			sourceTree = "<group>";
@@ -327,6 +333,7 @@
 				712FD6E521A441DB00248881 /* ViewController.swift in Sources */,
 				7176F1A921A8F055004F2C24 /* userController.swift in Sources */,
 				71F0AB1C21B7D01900300E1E /* alert.swift in Sources */,
+				719CAE5121BD5DDD00C81EB7 /* mainPublicInfoViewController.swift in Sources */,
 				712FD6E321A441DB00248881 /* AppDelegate.swift in Sources */,
 				71F0AB1A21B6E44900300E1E /* userPwdUpdateViewController.swift in Sources */,
 				7176F1AB21A8F6BF004F2C24 /* mainHistoryViewController.swift in Sources */,
@@ -338,6 +345,7 @@
 				71F0AB1821B6E25100300E1E /* userUpdateViewController.swift in Sources */,
 				7176F1AD21A8F72D004F2C24 /* mainApplyPowerOutViewController.swift in Sources */,
 				717E5DA321BBCD4F00A79473 /* newsViewController.swift in Sources */,
+				719CAE5321BD60D200C81EB7 /* mainPublicTableViewCell.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -11,6 +11,10 @@ import Charts
 
 class mainHistoryViewController: UIViewController {
 
+    @IBAction func back_Btn(_ sender: Any) {
+        
+        self.navigationController?.popViewController(animated: true)
+    }
     
     @IBOutlet weak var barChart: BarChartView!
     

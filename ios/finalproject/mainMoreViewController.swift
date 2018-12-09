@@ -15,9 +15,9 @@ class mainMoreViewController: UIViewController, UITableViewDataSource, UITableVi
     
     
     let log = MYLOG().log
-    let funcArray = ["最新消息", "個人資料管理", "密碼變更", "版本", "登出"]
-    let iconArray = ["megaphone", "user_update", "key", "round-info-button", "exit"]
-    let descriptionArray = ["➢", "➢", "➢", CONFIG().app_version, ""]
+    let funcArray = ["個人資料管理", "密碼變更", "版本", "登出"]
+    let iconArray = ["user_update", "key", "round-info-button", "exit"]
+    let descriptionArray = ["➢", "➢", CONFIG().app_version, ""]
     
     override var preferredStatusBarStyle: UIStatusBarStyle {
         
