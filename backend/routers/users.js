@@ -39,7 +39,7 @@ router.post('/', function(req, res){
 	var LastName = req.body.LastName;
 	var IdentityNum = req.body.IdentityNum;
 
-	req.con.query("INSERT INTO user (Account, Password, EmailAddress, ContactPhoneNum, ContactAddress, FirstName, LastName, IdentityNum) VALUES ('"+ Account +"', '"+ Password +"', '"+ EmailAddress +"', '"+ ContactPhoneNum +"', '"+ ContactAddress +"', '"+ FirstName +"', '"+ LastName +"', '"+ IdentityNum +"') ", function(error, results, fields){
+	req.con.query("INSERT INTO user (Account, Password, EmailAddress, ContactPhoneNum, ContactAddress, FirstName, LastName, IdentityNum, Role) VALUES ('"+ Account +"', '"+ Password +"', '"+ EmailAddress +"', '"+ ContactPhoneNum +"', '"+ ContactAddress +"', '"+ FirstName +"', '"+ LastName +"', '"+ IdentityNum +"', '1') ", function(error, results, fields){
 		if (error)
 			res.send(JSON.stringify({"status": 500, "error" : error}));
 		else
@@ -151,31 +151,7 @@ router.post('/forget/pwd', function(req, res){
 	
 });
 
-//delete a user (normal)
-router.delete('/ID', function(req, res){
 
-	var s_id = req.body.s_id;
-
-	req.con.query("DELETE FROM student WHERE s_id = '" +s_id+ "' ", function(error, results, fields){
-			if (error)
-				res.send(JSON.stringify({"status": 500, "error" : error}));
-			else
-				res.send(JSON.stringify({"status": 200, "success": true, "error": null, "response": results}));	
-		});
-});
-
-//delete a user (ios)
-router.post('/deleteID', function(req, res){
-
-	var s_id = req.body.s_id;
-
-	req.con.query("DELETE FROM student WHERE s_id = '" +s_id+ "' ", function(error, results, fields){
-			if (error)
-				res.send(JSON.stringify({"status": 500, "error" : error}));
-			else
-				res.send(JSON.stringify({"status": 200, "success": true, "error": null, "response": results}));	
-		});
-});
 
 var options = {
     //寄件者
@@ -201,5 +177,23 @@ var options = {
     //     path: '/Users/Weiju/Pictures/unnamed.jpg'
     // }]
 };
+
+
+//query user meter
+router.post('/retrieveMeter', function(req, res) {
+
+	console.log("Query user meter");
+	console.log(req);
+	var UserID = req.body.UserID;
+   
+	req.con.query("SELECT * FROM meter WHERE UserID = " +UserID+ " ", function(error, results, fields){
+		   if (error)
+			   res.send(JSON.stringify({"status": 500, "error" : error}));
+		   if (results.length > 0)
+			   res.send(JSON.stringify({"status": 200, "success": true, "error": null, "response": results}));
+		   else //目前沒有電表，提醒使用者加電表
+			   res.send(JSON.stringify({"status": 204, "success": false, "error": null, "response": "empty result"}));
+	  });
+});
 
 module.exports = router;

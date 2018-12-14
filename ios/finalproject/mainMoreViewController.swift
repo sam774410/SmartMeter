@@ -15,9 +15,9 @@ class mainMoreViewController: UIViewController, UITableViewDataSource, UITableVi
     
     
     let log = MYLOG().log
-    let funcArray = ["個人資料管理", "密碼變更", "版本", "登出"]
-    let iconArray = ["user_update", "key", "round-info-button", "exit"]
-    let descriptionArray = ["➢", "➢", CONFIG().app_version, ""]
+    let funcArray = ["新增電號", "個人資料管理", "密碼變更", "版本", "登出"]
+    let iconArray = ["add-plus-button", "user_update", "key", "round-info-button", "exit"]
+    let descriptionArray = ["➢", "➢", "➢", CONFIG().app_version, ""]
     
     override var preferredStatusBarStyle: UIStatusBarStyle {
         
@@ -57,8 +57,8 @@ class mainMoreViewController: UIViewController, UITableViewDataSource, UITableVi
             }
             
             let cancel = CDAlertViewAction(title: "取消", textColor: .blue, handler: nil)
-            alert.add(action: ok)
             alert.add(action: cancel)
+            alert.add(action: ok)
             alert.show()
             
         }else if funcArray[indexPath.row] == "個人資料管理"{
@@ -72,9 +72,9 @@ class mainMoreViewController: UIViewController, UITableViewDataSource, UITableVi
             let userPwdUpdateVC = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "userPwdUpdateVC")
             
             self.navigationController?.pushViewController(userPwdUpdateVC, animated: true)
-        } else if funcArray[indexPath.row] == "最新消息"{
+        } else if funcArray[indexPath.row] == "新增電號"{
             
-            let newsVC = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "newsVC")
+            let newsVC = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "addMeterVC")
             
             self.navigationController?.pushViewController(newsVC, animated: true)
         }

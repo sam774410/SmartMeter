@@ -11,6 +11,7 @@ import Alamofire
 import SwiftyJSON
 import SwiftyBeaver
 import NotificationBannerSwift
+import CDAlertView
 
 struct USER_DATAMODEL {
     
@@ -22,6 +23,13 @@ struct USER_DATAMODEL {
     var userEmail: String?
     var userContactPhone: String?
     var userAddress: String?
+    var autoID: String?
+}
+
+struct METER_DATAMODEL {
+    
+    var meterID: String?
+    var meterAddress: String?
 }
 
 class USER_API {
@@ -148,8 +156,11 @@ class USER_API {
                 user.append(jsonResult["response"][0]["ContactAddress"].string!)
                 user.append(jsonResult["response"][0]["Password"].string!)
                 user.append(jsonResult["response"][0]["Account"].string!)
+                user.append(String(jsonResult["response"][0]["ID"].int!))
                 
-                //self.log.warning(user)
+//                UserDefaults.standard.set(String(jsonResult["response"][0]["ID"].int!), forKey: "id")
+                
+                self.log.warning("user array：\(user)")
                 completion(user)
             }else {
                 
@@ -222,18 +233,74 @@ class USER_API {
             
             if jsonResult["status"] == 200 {
                 
-                //update success
+                //send success
                 self.log.info("send password successfully")
                 isSuccess = true
                 completion(isSuccess)
             } else {
                 
-                //update fail
+                //send fail
                 self.log.info("send password fail")
                 isSuccess = false
                 completion(isSuccess)
             }
         }
     }
+    
+    
+    func user_queryMeter(keys: [String: Any], completion: @escaping([METER_DATAMODEL], Bool) -> () ) {
+    
+        Alamofire.request(link!+"/users/retrieveMeter", method: .post, parameters: keys, encoding: URLEncoding.default, headers: nil).responseJSON { (response) in
+            
+            let jsonResult: JSON = JSON(response.result.value!)
+            self.log.debug(jsonResult)
+            
+            var isSuccess = false
+            
+            if jsonResult["status"] == 200 {
+                
+                var meterData = [METER_DATAMODEL]()
+                
+                isSuccess = true
+                //query success
+                self.log.info("query meter successfully")
+                
+                    for i in 0...jsonResult["response"].count-1 {
+                        
+                        var item = METER_DATAMODEL()
+
+                        item.meterID = jsonResult["response"][i]["ID"].stringValue
+                        item.meterAddress = jsonResult["response"][i]["Address"].stringValue
+
+                        meterData.append(item)
+//                        self.log.info(jsonResult["response"][i]["Address"])
+                    }
+                
+                    completion(meterData, isSuccess)
+                
+                } else if jsonResult["status"] == 204  {
+                    
+                    isSuccess = false
+                    var meterData = [METER_DATAMODEL]()
+                    
+                    //query fail
+                    self.log.info("query meter empty")
+
+                    completion(meterData, isSuccess)
+                }else  {
+                
+                    isSuccess = false
+                    var meterData = [METER_DATAMODEL]()
+                
+                    //query fail
+                    self.log.info("query meter fail")
+                
+                    completion(meterData, isSuccess)
+                }
+            }
+        }
+    
+    
 
 }
+

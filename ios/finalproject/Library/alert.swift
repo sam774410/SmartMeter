@@ -8,6 +8,7 @@
 
 import Foundation
 import CDAlertView
+import NotificationBannerSwift
 
 class ALERT {
     
@@ -17,5 +18,12 @@ class ALERT {
         let okAction = CDAlertViewAction(title: "確認")
         alert.add(action: okAction)
         alert.show()
+    }
+    
+    func banner(tittle: String, subtitle: String, style: BannerStyle ) {
+        
+        let mbanner = NotificationBanner(title: tittle, subtitle: subtitle, style: style)
+        mbanner.show()
+        
     }
 }

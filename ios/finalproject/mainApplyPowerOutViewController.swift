@@ -22,10 +22,46 @@ class mainApplyPowerOutViewController: UIViewController {
     
     @IBOutlet weak var date_TF: UITextField!
     private var datePicker: UIDatePicker?
-    var startDate: String?     
+    
+    var startDate: String?
+    
+    var currentStep = 0
+    
+    var isSuspendOrStop: Bool?
+    var meterID: String?
+    
+    //apply form
     @IBOutlet weak var applyContainerView: UIView!
     
+    //step view cancel btn
     @IBOutlet weak var containerView: UIView!
+    
+    @IBAction func cancelApply_Btn(_ sender: Any) {
+        
+        self.navigationController?.popViewController(animated: true)
+    }
+    @IBOutlet weak var cancel_Btn_Outlet: PMSuperButton!
+    
+    @IBAction func cancel_Btn(_ sender: Any) {
+        
+        let alert = CDAlertView(title: "確定取消申請？", message: "", type: CDAlertViewType.warning)
+        let cancelAction = CDAlertViewAction(title: "取消", textColor: .red)
+        let okAction = CDAlertViewAction(title: "確定") { (CDAlertViewAction) -> Bool in
+            
+            // cancel action
+            
+            self.containerView.isHidden = true
+            self.applyContainerView.isHidden = false
+            
+            ALERT().banner(tittle: "斷電申請已取消", subtitle: "", style: BannerStyle.success)
+            
+            return true
+        }
+        
+        alert.add(action: cancelAction)
+        alert.add(action: okAction)
+        alert.show()
+    }
     
     @IBOutlet weak var stepView: StepProgressView!
     
@@ -59,6 +95,8 @@ class mainApplyPowerOutViewController: UIViewController {
                                 
                                
                                 self.stepViewSetUp(curretStep: 1)
+                                
+                                self.log.debug("current step ： \(self.stepView.currentStep)")
                                 //write DB
                                 self.stepView.details = [0: "\(self.startDate!)"]
                                 
@@ -105,6 +143,12 @@ class mainApplyPowerOutViewController: UIViewController {
         
         initUserApply()
         
+        
+        if let isSuspendOrStop = isSuspendOrStop , let meterID = meterID {
+            
+            log.debug(isSuspendOrStop)
+            log.debug(meterID)
+        }
     }
     
     func initUserApply() {
@@ -136,7 +180,7 @@ class mainApplyPowerOutViewController: UIViewController {
     
     func stepInit(){
         
-        stepView.steps = ["已送出申請", "等待審核中", "已審核", "斷電申請成功"]
+        stepView.steps = ["已送出申請", "待審核中", "審核中", "已審核", "斷電申請成功"]
         //stepView.details = [0: "The beginning", 3: "The end"] // appears below step title
         
         stepView.stepShape = .circle

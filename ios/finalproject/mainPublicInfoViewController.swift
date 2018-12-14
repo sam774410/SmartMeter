@@ -13,8 +13,8 @@ class mainPublicInfoViewController: UIViewController, UITableViewDataSource, UIT
 
     let log = MYLOG().log
     
-    let funcArray = ["最新消息", "過往電力資訊", "電費計算"]
-    let iconArray = ["megaphone", "clock", "flash"]
+    let funcArray = ["最新消息", "臺灣即時用電資訊", "臺灣過去用電資訊"]
+    let iconArray = ["megaphone", "flash", "flash"]
     let descriptionArray = ["➢", "➢", "➢"]
     
     @IBOutlet weak var myTablewView: UITableView!
@@ -47,12 +47,17 @@ class mainPublicInfoViewController: UIViewController, UITableViewDataSource, UIT
         
         if indexPath.row == 0{
             
-            let newsVC = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "newsVC")
+            let newsVC = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "realTimeVC")
             self.navigationController?.pushViewController(newsVC, animated: true)
         } else if indexPath.row == 1 {
             
+            let realTimeVC = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "realTimeVC")
+            self.navigationController?.pushViewController(realTimeVC, animated: true)
+        } else if indexPath.row == 2 {
+            
             let historyVC = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "historyVC")
             self.navigationController?.pushViewController(historyVC, animated: true)
+            
         }
     }
     

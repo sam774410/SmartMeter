@@ -95,6 +95,7 @@ class loginViewController: UIViewController, UITextFieldDelegate {
                         UserDefaults.standard.set(email, forKey: "acct")
                         UserDefaults.standard.set(pwd, forKey: "pwd")
                         
+                        
                         Timer.scheduledTimer(withTimeInterval: 0.5, repeats: false, block: { (Timer) in
                             
                             self.register_Btn_Outlet.isHidden = true

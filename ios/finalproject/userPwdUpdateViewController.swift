@@ -175,6 +175,9 @@ class userPwdUpdateViewController: FormViewController {
                                     
                                     let banner = NotificationBanner(title: "密碼更新成功", style: .success)
                                     banner.show()
+                                    
+                                    //keep user info
+                                    UserDefaults.standard.set(self.user.userPwd!, forKey: "pwd")
                                     self.navigationController?.popViewController(animated: true)
                                     
                                 } else {
@@ -192,7 +195,7 @@ class userPwdUpdateViewController: FormViewController {
                         
                     } else {
                         
-                        ALERT().alert(title: "警告", subTitle: "請確實輸入資料", type: CDAlertViewType.error)
+                        ALERT().alert(title: "錯誤", subTitle: "請確實輸入資料", type: CDAlertViewType.error)
                     }
                    
                 })
