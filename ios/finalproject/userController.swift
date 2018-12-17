@@ -30,6 +30,7 @@ struct METER_DATAMODEL {
     
     var meterID: String?
     var meterAddress: String?
+    var meterStatus: String?
 }
 
 class USER_API {
@@ -271,6 +272,7 @@ class USER_API {
 
                         item.meterID = jsonResult["response"][i]["ID"].stringValue
                         item.meterAddress = jsonResult["response"][i]["Address"].stringValue
+                        item.meterStatus = jsonResult["response"][i]["Status"].stringValue
 
                         meterData.append(item)
 //                        self.log.info(jsonResult["response"][i]["Address"])
@@ -299,6 +301,37 @@ class USER_API {
                 }
             }
         }
+    
+    func user_addMeter(keys: [String: Any], completion: @escaping(Bool) -> ()) {
+        
+        var isSuccess: Bool = false
+        
+        Alamofire.request(link!+"/users/update_meter", method: .put, parameters: keys, encoding: URLEncoding.default, headers: nil).responseJSON { (response) in
+            
+            self.log.debug(response.result.value)
+            
+            let jsonResult: JSON = JSON(response.result.value!)
+            
+            if jsonResult["status"] == 200 {
+                
+                ALERT().banner(tittle: "新增電號成功", subtitle: "", style: BannerStyle.success)
+                
+                isSuccess = true
+                completion(isSuccess)
+            } else if jsonResult["status"] == 403 {
+                
+                ALERT().banner(tittle: "此電號已註冊", subtitle: "請確認電號", style: BannerStyle.danger)
+                
+                completion(isSuccess)
+                
+            } else {
+                
+                ALERT().banner(tittle: "請稍後再試", subtitle: "", style: BannerStyle.warning)
+                
+                completion(isSuccess)
+            }
+        }
+    }
     
     
 

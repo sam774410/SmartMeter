@@ -29,6 +29,9 @@ class mainApplyPowerOutViewController: UIViewController {
     
     var isSuspendOrStop: Bool?
     var meterID: String?
+    var userID: String?
+    var isShowStepView: Bool?
+    
     
     //apply form
     @IBOutlet weak var applyContainerView: UIView!
@@ -40,6 +43,8 @@ class mainApplyPowerOutViewController: UIViewController {
         
         self.navigationController?.popViewController(animated: true)
     }
+    
+    
     @IBOutlet weak var cancel_Btn_Outlet: PMSuperButton!
     
     @IBAction func cancel_Btn(_ sender: Any) {
@@ -50,10 +55,12 @@ class mainApplyPowerOutViewController: UIViewController {
             
             // cancel action
             
-            self.containerView.isHidden = true
-            self.applyContainerView.isHidden = false
+            //self.containerView.isHidden = true
+            //self.applyContainerView.isHidden = false
             
             ALERT().banner(tittle: "斷電申請已取消", subtitle: "", style: BannerStyle.success)
+            
+           self.navigationController?.popViewController(animated: true)
             
             return true
         }
@@ -138,22 +145,47 @@ class mainApplyPowerOutViewController: UIViewController {
         
         
         stepInit()
-        self.containerView.isHidden = true
-        self.applyContainerView.isHidden = true
         
-        initUserApply()
-        
-        
+        if let isShowStepView = isShowStepView {
+            
+            if isShowStepView {
+                
+                //
+                self.applyContainerView.isHidden = true
+            } else {
+                
+                //show step
+                self.containerView.isHidden = true
+                
+            }
+        }
+       
         if let isSuspendOrStop = isSuspendOrStop , let meterID = meterID {
             
             log.debug(isSuspendOrStop)
             log.debug(meterID)
         }
+        
+        if let uID = UserDefaults.standard.value(forKey: "id") as? String {
+            
+            userID = uID
+            log.debug("USER AUTO ID： \(userID!)")
+        }
+        
+        //query step
+        meterStatusQuery()
     }
     
-    func initUserApply() {
+    func meterStatusQuery() {
         
-        self.applyContainerView.isHidden = false
+        SVProgressHUD.show()
+        Timer.scheduledTimer(withTimeInterval: 2, repeats: false) { (Timer) in
+            
+            self.stepViewSetUp(curretStep: 2)
+            
+            
+            SVProgressHUD.dismiss()
+        }
     }
     
     @objc func tapView(gestureRecognizer: UITapGestureRecognizer){
@@ -190,7 +222,7 @@ class mainApplyPowerOutViewController: UIViewController {
         stepView.lineWidth = 2.5
         stepView.verticalPadding = 50 // between steps (0 => default based on textFont)
         stepView.horizontalPadding =  8 // between shape and text (0 => default based on textFont)
-
+        //stepView.currentStep = 0
     }
     
     func auththentication(completion: @escaping(Bool) -> ()) {

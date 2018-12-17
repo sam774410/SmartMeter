@@ -9,6 +9,7 @@
 import UIKit
 import SVProgressHUD
 import CDAlertView
+import PullToRefresh
 
 class meterListViewController: UIViewController, UITableViewDataSource, UITableViewDelegate
 {
@@ -18,6 +19,10 @@ class meterListViewController: UIViewController, UITableViewDataSource, UITableV
     @IBOutlet weak var myTableView: UITableView!
     var meterDataArray = [METER_DATAMODEL]()
     
+    override var preferredStatusBarStyle: UIStatusBarStyle {
+        
+        return .lightContent
+    }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         
@@ -28,7 +33,7 @@ class meterListViewController: UIViewController, UITableViewDataSource, UITableV
         
         let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath) as! meterListTableViewCell
         
-        cell.setUpCell(meter_id: meterDataArray[indexPath.row].meterID!, address: meterDataArray[indexPath.row].meterAddress!)
+        cell.setUpCell(meter_id: meterDataArray[indexPath.row].meterID!, meter_address: meterDataArray[indexPath.row].meterAddress!, meter_status: meterDataArray[indexPath.row].meterStatus!)
         
         return cell
     }
@@ -37,34 +42,73 @@ class meterListViewController: UIViewController, UITableViewDataSource, UITableV
         
         tableView.deselectRow(at: indexPath, animated: true)
         
-        let alert = UIAlertController(title: "請選擇", message: nil, preferredStyle: .actionSheet)
-        
-        let suspendApply = UIAlertAction(title: "暫停用電", style: .default) { (UIAlertAction) in
+        //check meter status "1" -> "使用中", "2" -> "暫停中"
+        if meterDataArray[indexPath.row].meterStatus == "-1" {
             
-            if let meterStatusVC = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "meterStatusVC") as? mainApplyPowerOutViewController{
+            //handler stoped meter -> recovery
+            
+            let alert = UIAlertController(title: "請選擇", message: nil, preferredStyle: .actionSheet)
+            
+            let recoveryAction = UIAlertAction(title: "恢復用電", style: .default) { (UIAlertAction) in
                 
-                meterStatusVC.isSuspendOrStop = true
+                //recovery action here
+            }
+            
+            let cancelAction = UIAlertAction(title: "取消", style: .destructive, handler: nil)
+            
+            alert.addAction(recoveryAction)
+            alert.addAction(cancelAction)
+            self.present(alert, animated: true, completion: nil)
+            
+        }else if meterDataArray[indexPath.row].meterStatus == "1"{
+            
+            //handler on use meter -> stop
+            
+            let alert = UIAlertController(title: "請選擇", message: nil, preferredStyle: .actionSheet)
+            
+            let suspendApply = UIAlertAction(title: "暫停用電", style: .default) { (UIAlertAction) in
+                
+                if let meterStatusVC = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "meterStatusVC") as? mainApplyPowerOutViewController{
+                    
+                    meterStatusVC.isSuspendOrStop = true
+                    meterStatusVC.isShowStepView = false
+                    meterStatusVC.meterID = self.meterDataArray[indexPath.row].meterID
+                    self.navigationController?.pushViewController(meterStatusVC, animated: true)
+                }
+            }
+            
+            let stopApply = UIAlertAction(title: "廢止用電", style: .default) { (UIAlertAction) in
+                
+                if let meterStatusVC = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "meterStatusVC") as? mainApplyPowerOutViewController{
+                    
+                    meterStatusVC.isSuspendOrStop = false
+                    meterStatusVC.isShowStepView = false
+                    meterStatusVC.meterID = self.meterDataArray[indexPath.row].meterID
+                    self.navigationController?.pushViewController(meterStatusVC, animated: true)
+                }
+            }
+            
+            let cancelAction = UIAlertAction(title: "取消", style: .destructive, handler: nil)
+            
+            alert.addAction(suspendApply)
+            alert.addAction(stopApply)
+            alert.addAction(cancelAction)
+            self.present(alert, animated: true, completion: nil)
+            
+        } else if meterDataArray[indexPath.row].meterStatus == "0" {
+            
+            //handle apply step
+            
+            if let meterStatusVC = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "meterStatusVC") as? mainApplyPowerOutViewController {
+                
+                meterStatusVC.isShowStepView = true
                 meterStatusVC.meterID = self.meterDataArray[indexPath.row].meterID
+                
                 self.navigationController?.pushViewController(meterStatusVC, animated: true)
             }
         }
         
-        let stopApply = UIAlertAction(title: "廢止用電", style: .default) { (UIAlertAction) in
-            
-            if let meterStatusVC = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "meterStatusVC") as? mainApplyPowerOutViewController{
-                
-                meterStatusVC.isSuspendOrStop = false
-                meterStatusVC.meterID = self.meterDataArray[indexPath.row].meterID
-                self.navigationController?.pushViewController(meterStatusVC, animated: true)
-            }
-        }
         
-        let cancelAction = UIAlertAction(title: "取消", style: .destructive, handler: nil)
-        
-        alert.addAction(suspendApply)
-        alert.addAction(stopApply)
-        alert.addAction(cancelAction)
-        self.present(alert, animated: true, completion: nil)
     }
     
     
@@ -73,9 +117,16 @@ class meterListViewController: UIViewController, UITableViewDataSource, UITableV
 
         myTableView.delegate = self
         myTableView.tableFooterView = UIView()
-        myTableView.isScrollEnabled = false
+        //myTableView.isScrollEnabled = false
         
-        
+        let refresher = PullToRefresh()
+        myTableView.addPullToRefresh(refresher) {
+            
+            self.meterDataArray = [METER_DATAMODEL]()
+            self.loadMeterData()
+            self.myTableView.endAllRefreshing()
+        }
+       
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -83,6 +134,7 @@ class meterListViewController: UIViewController, UITableViewDataSource, UITableV
         meterDataArray = [METER_DATAMODEL]()
         loadMeterData()
     }
+    
     
     @IBAction func backToMeterList(_ segue: UIStoryboardSegue) {
         
@@ -146,5 +198,6 @@ class meterListViewController: UIViewController, UITableViewDataSource, UITableV
         }
     }
 
-
+   
 }
+

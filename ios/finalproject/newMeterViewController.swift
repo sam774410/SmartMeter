@@ -13,10 +13,19 @@ import CDAlertView
 class newMeterViewController: FormViewController {
 
     var isHaveData: Bool = false
+    let log = MYLOG().log
+    var userID: Int?
+    var meterID: Int?
     
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        
+        
+        if let uID = UserDefaults.standard.value(forKey: "id") as? String {
+            
+            userID = Int(uID)
+            log.debug("USER AUTO ID： \(userID!)")
+        }
         
         form +++ Section("請輸入電號")
         
@@ -28,7 +37,15 @@ class newMeterViewController: FormViewController {
                 
                 if let number = IntRow.value {
                     
-                    self.isHaveData = self.checkIntRow(number: number, numberRow: IntRow)
+                    if self.checkIntRow(number: number, numberRow: IntRow) {
+                        
+                        self.isHaveData = true
+                        self.meterID = number
+                    } else {
+                        
+                        self.isHaveData = false
+                    }
+
                 }else {
                     
                     self.isHaveData = false
@@ -45,6 +62,17 @@ class newMeterViewController: FormViewController {
                 if self.isHaveData {
                     
                      // do something
+                    
+                    let parameters = ["UserID": self.userID!, "ID": self.meterID!]
+                    
+                
+                    USER_API().user_addMeter(keys: parameters, completion: { (isSuccess) in
+                        
+                        if isSuccess {
+                            
+                            self.navigationController?.popViewController(animated:  true)
+                        }
+                    })
                     
                 } else {
                     

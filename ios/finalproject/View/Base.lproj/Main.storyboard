@@ -742,21 +742,38 @@
                                                             <rect key="frame" x="68" y="9.5" width="292" height="51"/>
                                                             <subviews>
                                                                 <stackView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="VQ3-UU-R1l">
-                                                                    <rect key="frame" x="0.0" y="0.0" width="156" height="23"/>
+                                                                    <rect key="frame" x="0.0" y="0.0" width="292" height="23"/>
                                                                     <subviews>
                                                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="電表序號：" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="IJA-wS-RNV">
                                                                             <rect key="frame" x="0.0" y="0.0" width="100" height="23"/>
+                                                                            <constraints>
+                                                                                <constraint firstAttribute="width" constant="100" id="gKS-fA-5ao"/>
+                                                                            </constraints>
                                                                             <fontDescription key="fontDescription" name="Helvetica" family="Helvetica" pointSize="20"/>
                                                                             <nil key="textColor"/>
                                                                             <nil key="highlightedColor"/>
                                                                         </label>
-                                                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="12345" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="d5I-A0-9bo">
-                                                                            <rect key="frame" x="100" y="0.0" width="56" height="23"/>
+                                                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="1234567" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="d5I-A0-9bo">
+                                                                            <rect key="frame" x="100" y="0.0" width="112" height="23"/>
                                                                             <fontDescription key="fontDescription" name="Helvetica" family="Helvetica" pointSize="20"/>
                                                                             <nil key="textColor"/>
+                                                                            <nil key="highlightedColor"/>
+                                                                        </label>
+                                                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="使用中" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="njF-mc-icm">
+                                                                            <rect key="frame" x="212" y="0.0" width="80" height="23"/>
+                                                                            <constraints>
+                                                                                <constraint firstAttribute="width" constant="80" id="gW3-bN-cku"/>
+                                                                            </constraints>
+                                                                            <fontDescription key="fontDescription" name="Helvetica" family="Helvetica" pointSize="17"/>
+                                                                            <color key="textColor" red="0.0" green="0.97680455450000003" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                                             <nil key="highlightedColor"/>
                                                                         </label>
                                                                     </subviews>
+                                                                    <constraints>
+                                                                        <constraint firstAttribute="trailing" secondItem="njF-mc-icm" secondAttribute="trailing" constant="15" id="7pQ-6J-hpC"/>
+                                                                        <constraint firstItem="d5I-A0-9bo" firstAttribute="leading" secondItem="IJA-wS-RNV" secondAttribute="trailing" id="c5I-o4-dzk"/>
+                                                                        <constraint firstItem="njF-mc-icm" firstAttribute="leading" secondItem="d5I-A0-9bo" secondAttribute="trailing" id="wsk-WJ-81W"/>
+                                                                    </constraints>
                                                                 </stackView>
                                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="地址" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ldH-Nh-Sfj">
                                                                     <rect key="frame" x="0.0" y="28" width="292" height="23"/>
@@ -768,8 +785,10 @@
                                                             <constraints>
                                                                 <constraint firstAttribute="bottom" secondItem="ldH-Nh-Sfj" secondAttribute="bottom" constant="5" id="9b7-Hs-EJX"/>
                                                                 <constraint firstItem="VQ3-UU-R1l" firstAttribute="leading" secondItem="jk8-cS-IEJ" secondAttribute="leading" constant="15" id="BIs-cf-1fl"/>
+                                                                <constraint firstItem="VQ3-UU-R1l" firstAttribute="leading" secondItem="jk8-cS-IEJ" secondAttribute="leading" id="Q9U-qu-7hB"/>
                                                                 <constraint firstAttribute="trailing" secondItem="ldH-Nh-Sfj" secondAttribute="trailing" id="UXd-cw-05H"/>
                                                                 <constraint firstItem="ldH-Nh-Sfj" firstAttribute="top" secondItem="VQ3-UU-R1l" secondAttribute="bottom" constant="10" id="egy-WI-gua"/>
+                                                                <constraint firstAttribute="trailing" secondItem="VQ3-UU-R1l" secondAttribute="trailing" id="gbf-YU-nOY"/>
                                                             </constraints>
                                                         </stackView>
                                                     </subviews>
@@ -789,6 +808,7 @@
                                         <connections>
                                             <outlet property="address_lable" destination="ldH-Nh-Sfj" id="Sch-XQ-vLR"/>
                                             <outlet property="meter_lable" destination="d5I-A0-9bo" id="6RH-vs-HZy"/>
+                                            <outlet property="status_lable" destination="njF-mc-icm" id="28J-UJ-g58"/>
                                         </connections>
                                     </tableViewCell>
                                 </prototypes>
@@ -852,7 +872,7 @@
                                         <rect key="frame" x="30" y="410.5" width="315" height="46.5"/>
                                         <color key="backgroundColor" red="1" green="0.14913141730000001" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                         <fontDescription key="fontDescription" name="Helvetica" family="Helvetica" pointSize="18"/>
-                                        <state key="normal" title="取消申請">
+                                        <state key="normal" title="返回">
                                             <color key="titleColor" red="0.99999600649999998" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                         </state>
                                         <userDefinedRuntimeAttributes>
@@ -881,6 +901,49 @@
                                             <userDefinedRuntimeAttribute type="boolean" keyPath="gradientEnabled" value="YES"/>
                                             <userDefinedRuntimeAttribute type="boolean" keyPath="gradientHorizontal" value="NO"/>
                                             <userDefinedRuntimeAttribute type="color" keyPath="gradientStartColor">
+                                                <color key="value" red="0.0" green="0.58980089430000004" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                            </userDefinedRuntimeAttribute>
+                                            <userDefinedRuntimeAttribute type="color" keyPath="gradientEndColor">
+                                                <color key="value" red="0.016804177310000001" green="0.19835099580000001" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                            </userDefinedRuntimeAttribute>
+                                        </userDefinedRuntimeAttributes>
+                                        <connections>
+                                            <action selector="cancelApply_Btn:" destination="8yE-b5-X2z" eventType="touchUpInside" id="jJ6-I5-9l4"/>
+                                        </connections>
+                                    </button>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="5Nc-XZ-oVH" customClass="PMSuperButton" customModule="PMSuperButton">
+                                        <rect key="frame" x="30" y="210" width="315" height="46.5"/>
+                                        <color key="backgroundColor" red="1" green="0.14913141730000001" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                        <fontDescription key="fontDescription" name="Helvetica" family="Helvetica" pointSize="18"/>
+                                        <state key="normal" title="取消申請">
+                                            <color key="titleColor" red="0.99999600649999998" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                        </state>
+                                        <userDefinedRuntimeAttributes>
+                                            <userDefinedRuntimeAttribute type="number" keyPath="shadowRadius">
+                                                <real key="value" value="1"/>
+                                            </userDefinedRuntimeAttribute>
+                                            <userDefinedRuntimeAttribute type="boolean" keyPath="ripple" value="YES"/>
+                                            <userDefinedRuntimeAttribute type="number" keyPath="rippleSpeed">
+                                                <real key="value" value="5"/>
+                                            </userDefinedRuntimeAttribute>
+                                            <userDefinedRuntimeAttribute type="number" keyPath="cornerRadius">
+                                                <real key="value" value="11"/>
+                                            </userDefinedRuntimeAttribute>
+                                            <userDefinedRuntimeAttribute type="color" keyPath="shadowColor">
+                                                <color key="value" white="0.66666666669999997" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                            </userDefinedRuntimeAttribute>
+                                            <userDefinedRuntimeAttribute type="number" keyPath="shadowOpacity">
+                                                <real key="value" value="1"/>
+                                            </userDefinedRuntimeAttribute>
+                                            <userDefinedRuntimeAttribute type="size" keyPath="shadowOffset">
+                                                <size key="value" width="5" height="5"/>
+                                            </userDefinedRuntimeAttribute>
+                                            <userDefinedRuntimeAttribute type="color" keyPath="rippleColor">
+                                                <color key="value" red="0.92143100499999997" green="0.92145264149999995" blue="0.92144101860000005" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                            </userDefinedRuntimeAttribute>
+                                            <userDefinedRuntimeAttribute type="boolean" keyPath="gradientEnabled" value="YES"/>
+                                            <userDefinedRuntimeAttribute type="boolean" keyPath="gradientHorizontal" value="NO"/>
+                                            <userDefinedRuntimeAttribute type="color" keyPath="gradientStartColor">
                                                 <color key="value" red="1" green="0.57810515169999999" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                             </userDefinedRuntimeAttribute>
                                             <userDefinedRuntimeAttribute type="color" keyPath="gradientEndColor">
@@ -888,16 +951,20 @@
                                             </userDefinedRuntimeAttribute>
                                         </userDefinedRuntimeAttributes>
                                         <connections>
-                                            <action selector="cancel_Btn:" destination="8yE-b5-X2z" eventType="touchUpInside" id="gG3-b5-ETw"/>
+                                            <action selector="cancel_Btn:" destination="8yE-b5-X2z" eventType="touchUpInside" id="dUi-V8-OMy"/>
                                         </connections>
                                     </button>
                                 </subviews>
                                 <color key="backgroundColor" red="0.92143100499999997" green="0.92145264149999995" blue="0.92144101860000005" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <constraints>
                                     <constraint firstItem="Bcm-y7-td2" firstAttribute="height" secondItem="j3Z-Se-Xn7" secondAttribute="height" multiplier="3:5" id="COg-MB-vJN"/>
-                                    <constraint firstAttribute="bottom" secondItem="vG6-jH-RBJ" secondAttribute="bottom" constant="10" id="LJL-9U-rlN"/>
+                                    <constraint firstItem="5Nc-XZ-oVH" firstAttribute="width" secondItem="vG6-jH-RBJ" secondAttribute="width" id="Ego-Or-p1v"/>
                                     <constraint firstItem="Bcm-y7-td2" firstAttribute="centerX" secondItem="j3Z-Se-Xn7" secondAttribute="centerX" id="Qfr-cj-Itv"/>
+                                    <constraint firstItem="5Nc-XZ-oVH" firstAttribute="height" secondItem="vG6-jH-RBJ" secondAttribute="height" id="Qw3-q1-K8P"/>
                                     <constraint firstItem="vG6-jH-RBJ" firstAttribute="centerX" secondItem="j3Z-Se-Xn7" secondAttribute="centerX" id="Vwm-3d-H3M"/>
+                                    <constraint firstAttribute="bottom" secondItem="vG6-jH-RBJ" secondAttribute="bottom" constant="5" id="XC2-IL-giT"/>
+                                    <constraint firstItem="5Nc-XZ-oVH" firstAttribute="centerX" secondItem="j3Z-Se-Xn7" secondAttribute="centerX" id="bEC-Uv-Mbc"/>
+                                    <constraint firstItem="vG6-jH-RBJ" firstAttribute="top" secondItem="5Nc-XZ-oVH" secondAttribute="bottom" constant="5" id="jye-uC-BZc"/>
                                     <constraint firstItem="Bcm-y7-td2" firstAttribute="width" secondItem="j3Z-Se-Xn7" secondAttribute="width" multiplier="3:5" id="l7M-Te-grb"/>
                                     <constraint firstItem="Bcm-y7-td2" firstAttribute="top" secondItem="j3Z-Se-Xn7" secondAttribute="top" constant="20" id="yHH-m0-scW"/>
                                 </constraints>
@@ -970,8 +1037,8 @@
                                             <action selector="apply_Btn:" destination="8yE-b5-X2z" eventType="touchUpInside" id="lsA-tZ-PDZ"/>
                                         </connections>
                                     </button>
-                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="StN-Z8-B6N" customClass="PMSuperButton" customModule="PMSuperButton">
-                                        <rect key="frame" x="30" y="210" width="315" height="47"/>
+                                    <button opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="StN-Z8-B6N" customClass="PMSuperButton" customModule="PMSuperButton">
+                                        <rect key="frame" x="37" y="346" width="315" height="46.5"/>
                                         <color key="backgroundColor" red="0.0" green="0.58980089430000004" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                         <fontDescription key="fontDescription" name="Helvetica" family="Helvetica" pointSize="18"/>
                                         <state key="normal" title="取消">
@@ -1041,7 +1108,7 @@
                             <constraint firstItem="j3Z-Se-Xn7" firstAttribute="top" secondItem="wpr-rA-ckk" secondAttribute="bottom" id="PK1-Ce-3Fi"/>
                             <constraint firstItem="3ea-mE-Vdc" firstAttribute="height" secondItem="j3Z-Se-Xn7" secondAttribute="height" id="PmY-qh-7bo"/>
                             <constraint firstItem="3ea-mE-Vdc" firstAttribute="trailing" secondItem="UwN-Cx-v9u" secondAttribute="trailing" id="RNk-tj-Jfp"/>
-                            <constraint firstItem="vG6-jH-RBJ" firstAttribute="height" secondItem="XuI-xj-xAZ" secondAttribute="height" id="hnT-xL-wBI"/>
+                            <constraint firstItem="vG6-jH-RBJ" firstAttribute="height" secondItem="XuI-xj-xAZ" secondAttribute="height" multiplier="2:3" id="hnT-xL-wBI"/>
                             <constraint firstItem="wpr-rA-ckk" firstAttribute="leading" secondItem="UwN-Cx-v9u" secondAttribute="leading" id="ivB-Zm-NJJ"/>
                             <constraint firstItem="3ea-mE-Vdc" firstAttribute="bottom" secondItem="UwN-Cx-v9u" secondAttribute="bottom" id="mLc-03-n55"/>
                             <constraint firstItem="vG6-jH-RBJ" firstAttribute="width" secondItem="XuI-xj-xAZ" secondAttribute="width" id="n8X-WE-4V0"/>
