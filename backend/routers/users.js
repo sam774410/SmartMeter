@@ -196,4 +196,41 @@ router.post('/retrieveMeter', function(req, res) {
 	  });
 });
 
+
+//update a meter
+router.put('/update_meter', function(req, res){
+
+ 
+	var UserID = req.body.UserID;   //接收前端user_id
+	   var ID = req.body.ID; //接收前端meter_id
+	
+	//先檢查該meter 是否有使用者
+	req.con.query("SELECT Status FROM meter WHERE ID = '"+ID+"' ", function(error, results, fields){
+	 //該電表不存在
+		if (error)   
+			res.send(JSON.stringify({"status": 500, "error" : error}));
+		
+		//電表存在 接著比對是否有人使用 
+		else{  
+		//  試著印出 status值 console.log(results[0]["Status"]);
+	
+		//meter的Status==0 表示該電表尚未遭到綁定 所以可以進行綁定動作
+		if(!results[0]["Status"]){    
+			//這邊的UserID指的是meter裡面的UseID  , 而ID指的是 meter的ID  所以比對前端meter的ID後 , 將UserID資訊update
+			req.con.query("UPDATE meter SET UserID = '"+UserID+"' WHERE ID = '"+ID+"' ", function(error, results, fields){
+				if (error)
+				res.send(JSON.stringify({"status": 500, "error" : error}));
+				else
+				res.send(JSON.stringify({"status": 200, "success": true, "error": null, "response": results }));
+			});
+			}
+		//meter的Status!=0  表示該電表已經被綁定 所以不可以再綁定
+		else     
+			res.send(JSON.stringify({"status": 403, "error" : '此電表已遭綁定，不可再綁定'})); 
+			}
+		});
+		
+   });
+
+
 module.exports = router;
