@@ -18,6 +18,7 @@ class meterListViewController: UIViewController, UITableViewDataSource, UITableV
     
     @IBOutlet weak var myTableView: UITableView!
     var meterDataArray = [METER_DATAMODEL]()
+    var userID: Int?
     
     override var preferredStatusBarStyle: UIStatusBarStyle {
         
@@ -125,6 +126,14 @@ class meterListViewController: UIViewController, UITableViewDataSource, UITableV
             self.meterDataArray = [METER_DATAMODEL]()
             self.loadMeterData()
             self.myTableView.endAllRefreshing()
+        }
+        
+        //get user auto id
+        
+        if let uID = UserDefaults.standard.value(forKey: "id") as? String {
+            
+            self.userID = Int(uID)
+            log.debug("USER AUTO ID： \(userID!)")
         }
        
     }

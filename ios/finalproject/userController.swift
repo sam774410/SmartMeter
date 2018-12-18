@@ -336,7 +336,6 @@ class USER_API {
     
     func user_addContract(keys: [String: Any], completion: @escaping(Bool) -> ()) {
         
-        
         var isSuccess: Bool = false
         
         Alamofire.request(link!+"/users/add_contract", method: .put, parameters: keys, encoding: URLEncoding.default, headers: nil).responseJSON { (response) in
@@ -355,6 +354,58 @@ class USER_API {
                 
                 self.log.debug("add contract fail")
                 completion(isSuccess)
+            }
+        }
+    }
+    
+    
+    func user_stopMeter(keys: [String: Any], completion: @escaping(Bool)->()) {
+        
+        var isSuccess = false
+        
+        Alamofire.request(link!+"/users/stop_meter", method: .post, parameters: keys, encoding: URLEncoding.default, headers: nil).responseJSON { (response) in
+            
+            self.log.debug(response.result.value)
+            
+            let jsonResult: JSON = JSON(response.result.value!)
+            
+            if jsonResult["status"] == 200 {
+                
+                self.log.debug("stop meter request sended")
+                
+                isSuccess = true
+                completion(isSuccess)
+            }  else {
+                
+                self.log.debug("stop meter request sended fail")
+                completion(isSuccess)
+            }
+        }
+    }
+    
+    
+    func user_querySuspendStatus(keys: [String: Any], completion: @escaping(String)->()) {
+        
+        Alamofire.request(link!+"/users/post_suspendapply_status", method: .post, parameters: keys, encoding: URLEncoding.default, headers: nil).responseJSON { (response) in
+            
+            self.log.debug(response.result)
+            
+            let jsonResult: JSON = JSON(response.result.value!)
+            
+            if jsonResult["status"] == 200 {
+                
+                self.log.debug("query meter suspend successfully")
+                
+                let status = jsonResult["response"][0]["Status"].stringValue
+                
+                self.log.debug(status)
+                
+                completion(status)
+            }  else {
+                
+                self.log.debug("query meter suspend fail")
+                
+                completion("0")
             }
         }
     }

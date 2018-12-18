@@ -45,6 +45,7 @@ class mainApplyPowerOutViewController: UIViewController {
     }
     
     
+    @IBOutlet weak var realCancel_Btn_Outlet: PMSuperButton!
     @IBOutlet weak var cancel_Btn_Outlet: PMSuperButton!
     
     @IBAction func cancel_Btn(_ sender: Any) {
@@ -90,31 +91,41 @@ class mainApplyPowerOutViewController: UIViewController {
                     if isOk {
                         
                         // is auth
-                        
-                        DispatchQueue.main.sync {
+                        DispatchQueue.main.async {
+                            
+                            SVProgressHUD.show()
                             
                             self.applyContainerView.isHidden = true
                             self.containerView.isHidden = false
                             
-                            SVProgressHUD.show()
-                            
-                            Timer.scheduledTimer(withTimeInterval: 0.5, repeats: false, block: { (Timer) in
+                            if let isSuspendOrStop = self.isSuspendOrStop, let meterID = self.meterID, let userID = self.userID{
                                 
-                               
-                                self.stepViewSetUp(curretStep: 1)
+                                self.log.debug("\(isSuspendOrStop)\(meterID)\(userID)")
                                 
-                                self.log.debug("current step ： \(self.stepView.currentStep)")
-                                //write DB
-                                self.stepView.details = [0: "\(self.startDate!)"]
+                                let parameters = ["meterID": Int(meterID), "StartDate": startDate] as [String: Any]
                                 
-                                SVProgressHUD.dismiss()
-                            })
-                            
+                                USER_API().user_stopMeter(keys: parameters, completion: { (isSuccess) in
+                                    
+                                    if isSuccess {
+                                        
+                                        SVProgressHUD.dismiss()
+                                        
+                                        ALERT().banner(tittle: "申請已送出", subtitle: "我們即將為您審核", style: BannerStyle.success)
+                                        
+                                        self.stepViewSetUp(curretStep: 1)
+                                    } else {
+                                        
+                                        SVProgressHUD.dismiss()
+                                        
+                                        ALERT().banner(tittle: "請稍後再試", subtitle: "", style: BannerStyle.warning)
+                                    }
+                                })
+                            }
                         }
                     } else {
                         
                         //can't auth
-                        
+                        ALERT().banner(tittle: "驗證失敗", subtitle: "請稍後再試", style: BannerStyle.danger)
                     }
                 })
                 return true
@@ -150,11 +161,11 @@ class mainApplyPowerOutViewController: UIViewController {
             
             if isShowStepView {
                 
-                //
+                //show step
                 self.applyContainerView.isHidden = true
             } else {
                 
-                //show step
+                //handle apply
                 self.containerView.isHidden = true
                 
             }
@@ -176,16 +187,37 @@ class mainApplyPowerOutViewController: UIViewController {
         meterStatusQuery()
     }
     
+    //query meter status
     func meterStatusQuery() {
         
         SVProgressHUD.show()
-        Timer.scheduledTimer(withTimeInterval: 2, repeats: false) { (Timer) in
+        
+        if let meterID = meterID {
             
-            self.stepViewSetUp(curretStep: 2)
+            let parameters = ["meterID": meterID] as [String: Any]
             
-            
-            SVProgressHUD.dismiss()
+            USER_API().user_querySuspendStatus(keys: parameters) { (response) in
+                
+                self.log.warning(response)
+                
+                if response == "0" {
+                    
+                    self.stepViewSetUp(curretStep: 1)
+                } else if response == "1" {
+                    
+                    self.stepViewSetUp(curretStep: 2)
+                    self.realCancel_Btn_Outlet.isHidden = true
+                }else if response == "2" {
+                    
+                    self.stepViewSetUp(curretStep: 4)
+                    self.realCancel_Btn_Outlet.isHidden = true
+                }
+                
+                SVProgressHUD.dismiss()
+            }
         }
+        
+        
     }
     
     @objc func tapView(gestureRecognizer: UITapGestureRecognizer){

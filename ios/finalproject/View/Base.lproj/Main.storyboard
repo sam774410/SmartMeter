@@ -1127,6 +1127,7 @@
                         <outlet property="cancel_Btn_Outlet" destination="vG6-jH-RBJ" id="LJA-iK-h5y"/>
                         <outlet property="containerView" destination="j3Z-Se-Xn7" id="eg6-TR-wPr"/>
                         <outlet property="date_TF" destination="iwf-3e-wJg" id="HLl-Ev-LLy"/>
+                        <outlet property="realCancel_Btn_Outlet" destination="5Nc-XZ-oVH" id="RjT-kQ-95b"/>
                         <outlet property="stepView" destination="Bcm-y7-td2" id="RhS-oe-gFU"/>
                         <segue destination="w0g-tb-Kz9" kind="unwind" identifier="backToMeter" unwindAction="backToMeterList:" id="q4a-N5-5I7"/>
                     </connections>
