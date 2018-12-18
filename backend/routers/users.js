@@ -77,8 +77,12 @@ router.post('/auth/id', function(req, res){
 	req.con.query("SELECT * FROM user WHERE Account = '" +Account+ "' && Password = '"+ Password+"' ", function(error, results, fields){
 			if (error)
 				res.send(JSON.stringify({"status": 500, "error" : error}));
-			if (results.length > 0)
+			if (results.length > 0){
+
+				res.setHeader('Access-Control-Allow-Origin', '*');
+				res.setHeader('Access-Control-Allow-Headers', 'X-Requested-With,content-type');
 				res.send(JSON.stringify({"status": 200, "success": true, "error": null, "response": results}));
+			}
 			else
 				res.send(JSON.stringify({"status": 204, "success": false, "error": null, "response": "empty result"}));
 		});
@@ -225,10 +229,10 @@ router.put('/update_meter', function(req, res){
 	 	else{  
 			//  試著印出 status值 console.log(results[0]["Status"]);
 	
-			//meter的Status==0 表示該電表尚未遭到綁定 所以可以進行綁定動作
-			if(!results[0]["Status"]){    
+			//meter的Status==-2 表示該電表尚未遭到綁定 所以可以進行綁定動作
+			if(results[0]["Status"] == -2){    
 				//這邊的UserID指的是meter裡面的UseID  , 而ID指的是 meter的ID  所以比對前端meter的ID後 , 將UserID資訊update
-				req.con.query("UPDATE meter SET UserID = '"+UserID+"' WHERE ID = '"+ID+"' ", function(error, results, fields){
+				req.con.query("UPDATE meter SET UserID = '"+UserID+"' ,Status = 1 WHERE ID = '"+ID+"' ", function(error, results, fields){
 					if (error){
 
 						res.send(JSON.stringify({"status": 500, "error" : error}));
@@ -244,7 +248,7 @@ router.put('/update_meter', function(req, res){
 						
 				});	
 			}
-			//meter的Status!=0  表示該電表已經被綁定 所以不可以再綁定
+			//meter的Status!=-2  表示該電表已經被綁定 所以不可以再綁定
 			else{     
 					res.send(JSON.stringify({"status": 403, "error" : '此電表已遭綁定，不可再綁定'})); 
 					res.end();
@@ -256,23 +260,6 @@ router.put('/update_meter', function(req, res){
 });
 
 
-/**生成contract    未改完 還要讓使用者決定他的收費型態 時間or非時間 前端會回傳 收費型態
-req.con.query("INSERT INTO contract (UserID, MeterID, StartDate) VALUES ('"+UserID +"', '"+ID+"', '"+myDate+"' ) ", function(error, results, fields){
-	if (error) {
-
-		res.send(JSON.stringify({"status": 500, "error" : error}));
-		res.end();
-		return;
-	}	
-		
-	else{
-
-		res.send(JSON.stringify({"status": 200, "success": true, "error": null, "response": results}));
-		res.end();
-		return;
-	}
-		
-});   */
 
 
 
