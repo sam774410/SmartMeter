@@ -42,7 +42,7 @@ class meterListViewController: UIViewController, UITableViewDataSource, UITableV
         
         tableView.deselectRow(at: indexPath, animated: true)
         
-        //check meter status "1" -> "使用中", "2" -> "暫停中"
+        //check meter status "1" -> "使用中", "-1" -> "暫停中", "0" -> "申請中"
         if meterDataArray[indexPath.row].meterStatus == "-1" {
             
             //handler stoped meter -> recovery

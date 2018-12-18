@@ -304,6 +304,7 @@ class USER_API {
     
     func user_addMeter(keys: [String: Any], completion: @escaping(Bool) -> ()) {
         
+            
         var isSuccess: Bool = false
         
         Alamofire.request(link!+"/users/update_meter", method: .put, parameters: keys, encoding: URLEncoding.default, headers: nil).responseJSON { (response) in
@@ -328,6 +329,31 @@ class USER_API {
                 
                 ALERT().banner(tittle: "請稍後再試", subtitle: "", style: BannerStyle.warning)
                 
+                completion(isSuccess)
+            }
+        }
+    }
+    
+    func user_addContract(keys: [String: Any], completion: @escaping(Bool) -> ()) {
+        
+        
+        var isSuccess: Bool = false
+        
+        Alamofire.request(link!+"/users/add_contract", method: .put, parameters: keys, encoding: URLEncoding.default, headers: nil).responseJSON { (response) in
+            
+            self.log.debug(response.result.value)
+            
+            let jsonResult: JSON = JSON(response.result.value!)
+            
+            if jsonResult["status"] == 200 {
+                
+                self.log.debug("add contract successfully")
+                
+                isSuccess = true
+                completion(isSuccess)
+            }  else {
+                
+                self.log.debug("add contract fail")
                 completion(isSuccess)
             }
         }

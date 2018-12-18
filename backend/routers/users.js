@@ -197,40 +197,105 @@ router.post('/retrieveMeter', function(req, res) {
 });
 
 
+
+
 //update a meter
 router.put('/update_meter', function(req, res){
 
- 
+	console.log('user add meter');
+	console.log(req.body);
+
 	var UserID = req.body.UserID;   //接收前端user_id
-	   var ID = req.body.ID; //接收前端meter_id
-	
+	var ID = req.body.ID;    //接收前端meter_id
+	var myDate = new Date();  //取出日期時間
+	myDate=myDate.toLocaleDateString();  //將日期取到日就好
+	var ChargeType = req.body.ChargeType;   //接ChargeType 用來輸入在Comtract中 
+   
 	//先檢查該meter 是否有使用者
 	req.con.query("SELECT Status FROM meter WHERE ID = '"+ID+"' ", function(error, results, fields){
 	 //該電表不存在
-		if (error)   
-			res.send(JSON.stringify({"status": 500, "error" : error}));
-		
-		//電表存在 接著比對是否有人使用 
-		else{  
-		//  試著印出 status值 console.log(results[0]["Status"]);
-	
-		//meter的Status==0 表示該電表尚未遭到綁定 所以可以進行綁定動作
-		if(!results[0]["Status"]){    
-			//這邊的UserID指的是meter裡面的UseID  , 而ID指的是 meter的ID  所以比對前端meter的ID後 , 將UserID資訊update
-			req.con.query("UPDATE meter SET UserID = '"+UserID+"' WHERE ID = '"+ID+"' ", function(error, results, fields){
-				if (error)
-				res.send(JSON.stringify({"status": 500, "error" : error}));
-				else
-				res.send(JSON.stringify({"status": 200, "success": true, "error": null, "response": results }));
-			});
-			}
-		//meter的Status!=0  表示該電表已經被綁定 所以不可以再綁定
-		else     
-			res.send(JSON.stringify({"status": 403, "error" : '此電表已遭綁定，不可再綁定'})); 
-			}
-		});
-		
-   });
+		if (error){
 
+			res.send(JSON.stringify({"status": 500, "error" : error}));
+			res.end();
+			return;
+		}
+	  		
+	 	//電表存在 接著比對是否有人使用 
+	 	else{  
+			//  試著印出 status值 console.log(results[0]["Status"]);
+	
+			//meter的Status==0 表示該電表尚未遭到綁定 所以可以進行綁定動作
+			if(!results[0]["Status"]){    
+				//這邊的UserID指的是meter裡面的UseID  , 而ID指的是 meter的ID  所以比對前端meter的ID後 , 將UserID資訊update
+				req.con.query("UPDATE meter SET UserID = '"+UserID+"' WHERE ID = '"+ID+"' ", function(error, results, fields){
+					if (error){
+
+						res.send(JSON.stringify({"status": 500, "error" : error}));
+						res.end();
+						return;
+					}
+					else{
+
+						res.send(JSON.stringify({"status": 200, "success": true, "error": null, "response": results }));
+						res.end();
+						return;
+					}
+						
+				});	
+			}
+			//meter的Status!=0  表示該電表已經被綁定 所以不可以再綁定
+			else{     
+					res.send(JSON.stringify({"status": 403, "error" : '此電表已遭綁定，不可再綁定'})); 
+					res.end();
+					return;
+			} 
+	 	}
+	});
+	   
+});
+
+
+/**生成contract    未改完 還要讓使用者決定他的收費型態 時間or非時間 前端會回傳 收費型態
+req.con.query("INSERT INTO contract (UserID, MeterID, StartDate) VALUES ('"+UserID +"', '"+ID+"', '"+myDate+"' ) ", function(error, results, fields){
+	if (error) {
+
+		res.send(JSON.stringify({"status": 500, "error" : error}));
+		res.end();
+		return;
+	}	
+		
+	else{
+
+		res.send(JSON.stringify({"status": 200, "success": true, "error": null, "response": results}));
+		res.end();
+		return;
+	}
+		
+});   */
+
+
+
+///add contract
+router.put('/add_contract', function(req, res){
+
+	console.log('add contract');
+	console.log(req.body);
+	var UserID = req.body.UserID;   //接收前端user_id
+	var ID = req.body.ID;    //接收前端meter_id
+	var myDate = new Date();  //取出日期時間
+	myDate=myDate.toLocaleDateString();  //將日期取到日就好
+	var ChargeType = req.body.ChargeType;   //接ChargeType 用來輸入在Comtract中 
+   
+	req.con.query("INSERT INTO contract (UserID, MeterID, StartDate,ChargeType) VALUES ('"+UserID +"', '"+ID+"', '"+myDate+"','"+ChargeType+"' ) ", function(error, results, fields){
+
+		if (error)
+
+		 	res.send(JSON.stringify({"status": 500, "error" : error}));
+		else
+
+		 	res.send(JSON.stringify({"status": 200, "success": true, "error": null, "response": results}));
+	});  
+});
 
 module.exports = router;

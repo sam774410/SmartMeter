@@ -17,6 +17,9 @@ class newMeterViewController: FormViewController {
     var userID: Int?
     var meterID: Int?
     
+    var chargeTitle: [String] = ["非時間電價-非營業性質", "非時間電價-營業性質", "時間電價 二段式", "時間電價 三段式"]
+    var chargeType: Int = 1
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -52,6 +55,33 @@ class newMeterViewController: FormViewController {
                 }
             })
         
+        form +++ SelectableSection<ListCheckRow<String>>("請選擇收費模式", selectionType: .singleSelection(enableDeselection: true))
+        
+        <<< ActionSheetRow<String>() {
+            
+                $0.title = "收費模式"
+                $0.selectorTitle = "請選擇收費模式"
+                $0.options = chargeTitle
+                $0.value = chargeTitle[0]    // initially selected
+            }.onChange({ (ActionSheetRow) in
+                
+                if ActionSheetRow.value! == self.chargeTitle[0] {
+                    
+                    self.chargeType = 1
+                } else if ActionSheetRow.value! == self.chargeTitle[1] {
+                    
+                    self.chargeType = 2
+                } else if ActionSheetRow.value! == self.chargeTitle[2] {
+                    
+                    self.chargeType = 3
+                } else if ActionSheetRow.value! == self.chargeTitle[3] {
+                    
+                    self.chargeType = 4
+                }
+                
+                self.log.debug("current charge type：\(ActionSheetRow.value!) \(self.chargeType)")
+            })
+        
         form +++ Section("")
         
         <<< ButtonRow { row in
@@ -61,15 +91,20 @@ class newMeterViewController: FormViewController {
                 
                 if self.isHaveData {
                     
-                     // do something
-                    
-                    let parameters = ["UserID": self.userID!, "ID": self.meterID!]
+                    // do something
+
+                    //UserID : user auto id , ID: meter id
+                    let parameters = ["UserID": self.userID!, "ID": self.meterID!, "ChargeType": self.chargeType] 
                     
                 
                     USER_API().user_addMeter(keys: parameters, completion: { (isSuccess) in
                         
                         if isSuccess {
                             
+                            USER_API().user_addContract(keys: parameters, completion: { (isSuccess) in
+                                
+                                
+                            })
                             self.navigationController?.popViewController(animated:  true)
                         }
                     })
