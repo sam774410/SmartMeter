@@ -39,6 +39,7 @@ class mainApplyPowerOutViewController: UIViewController {
     //step view cancel btn
     @IBOutlet weak var containerView: UIView!
     
+    //back
     @IBAction func cancelApply_Btn(_ sender: Any) {
         
         self.navigationController?.popViewController(animated: true)
@@ -48,20 +49,35 @@ class mainApplyPowerOutViewController: UIViewController {
     @IBOutlet weak var realCancel_Btn_Outlet: PMSuperButton!
     @IBOutlet weak var cancel_Btn_Outlet: PMSuperButton!
     
+    //cancel apply
     @IBAction func cancel_Btn(_ sender: Any) {
         
         let alert = CDAlertView(title: "確定取消申請？", message: "", type: CDAlertViewType.warning)
         let cancelAction = CDAlertViewAction(title: "取消", textColor: .red)
         let okAction = CDAlertViewAction(title: "確定") { (CDAlertViewAction) -> Bool in
             
-            // cancel action
-            
-            //self.containerView.isHidden = true
-            //self.applyContainerView.isHidden = false
-            
             ALERT().banner(tittle: "斷電申請已取消", subtitle: "", style: BannerStyle.success)
             
-           self.navigationController?.popViewController(animated: true)
+            //handle cancel action
+            
+            if let meterID = self.meterID {
+                
+                let parameters = ["meterID": Int(meterID)] as [String: Any]
+                
+                USER_API().user_cancelStopMeter(keys: parameters, completion: { (isSuccess) -> () in
+                    
+                    if isSuccess {
+                        
+                        ALERT().banner(tittle: "申請已取消", subtitle: "", style: BannerStyle.success)
+                    }else {
+                        
+                        ALERT().banner(tittle: "請稍後再試", subtitle: "", style: BannerStyle.warning)
+                    }
+                })
+            }
+            
+            
+            self.navigationController?.popViewController(animated: true)
             
             return true
         }
@@ -73,6 +89,7 @@ class mainApplyPowerOutViewController: UIViewController {
     
     @IBOutlet weak var stepView: StepProgressView!
     
+    //start apply
     @IBAction func apply_Btn(_ sender: Any) {
         
         if let startDate = startDate{

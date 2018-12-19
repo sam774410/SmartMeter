@@ -323,7 +323,7 @@ router.post('/post_suspendapply_status', function(req, res) {
 	//接收傳入的meterID 找出contract 再找出suspendapply的status
 	var meterID = req.body.meterID;
    
-	req.con.query("SELECT Status FROM suspendapply WHERE ContractID = (Select b.ID from meter a, contract b where a.Id = b.MeterID and b.MeterID = '"+ meterID+"')" , function (error, results, fields) {
+	req.con.query("SELECT Status FROM suspendapply WHERE ContractID = (Select b.ID from meter a, contract b where a.Id = b.MeterID and b.MeterID = '"+ meterID+"') AND Status != -1" , function (error, results, fields) {
 		if (error)
 	  		res.send(JSON.stringify({"status": 500, "error" : error}));
 	 	else
@@ -331,5 +331,36 @@ router.post('/post_suspendapply_status', function(req, res) {
 	});    // 以上代碼錯誤可以再寫更多 debug時可以更輕鬆
 });
 
+
+// cancel stop meter
+router.post('/cancel_stop_meter', function(req, res) {
+
+	console.log('user cancel stop meter');
+	console.log(req.body);
+
+	var meterID = req.body.meterID;
+	//var StartDate = req.body.StartDate;
+	var myDate = new Date();  //取出日期時間
+	myDate=myDate.toLocaleDateString();  //將日期取到日就好
+	
+	//meter status update to 1
+	req.con.query("UPDATE meter SET Status = 1 WHERE ID = '"+meterID+"' ", function(error, results, fields){
+		if (error)
+
+	  		res.send(JSON.stringify({"status": 500, "error" : error}));
+	 	else{
+   
+			//update suspendapply table status = -1  where status = 0
+			req.con.query("UPDATE suspendapply SET Status = -1, CancelDate = '"+ myDate +"' WHERE ContractID = (Select b.ID from meter a, contract b where a.Id = b.MeterID and b.MeterID = '"+ meterID+"') AND Status = 0", function(error, results, fields){
+			if (error)
+
+				res.send(JSON.stringify({"status": 500, "error" : error}));
+			else
+
+				res.send(JSON.stringify({"status": 200, "success": true, "error": null, "response": results}));
+			}); 
+		}
+	});
+});
 
 module.exports = router;

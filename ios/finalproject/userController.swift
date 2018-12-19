@@ -388,7 +388,7 @@ class USER_API {
         
         Alamofire.request(link!+"/users/post_suspendapply_status", method: .post, parameters: keys, encoding: URLEncoding.default, headers: nil).responseJSON { (response) in
             
-            self.log.debug(response.result)
+            self.log.debug(response.result.value)
             
             let jsonResult: JSON = JSON(response.result.value!)
             
@@ -411,6 +411,27 @@ class USER_API {
     }
     
     
-
+    func user_cancelStopMeter(keys: [String: Any], completion: @escaping(Bool)->()) {
+        
+        var isSuccess = false
+        
+        Alamofire.request(link!+"/users/cancel_stop_meter", method: .post, parameters: keys, encoding: URLEncoding.default, headers: nil).responseJSON { (response) in
+            
+            self.log.debug(response.result)
+            
+            let jsonResult: JSON = JSON(response.result.value!)
+            
+            if jsonResult["status"] == 200 {
+                
+                self.log.debug("cancel stop meter successfully")
+                isSuccess = true
+                completion(isSuccess)
+            }else {
+                
+                self.log.debug("cancel stop meter fail")
+                completion(isSuccess)
+            }
+        }
+    }
 }
 
