@@ -305,7 +305,7 @@ router.post('/stop_meter', function(req, res) {
 	 	else{
    
 			//開始新增一筆 Suspendapply的Tuple 
-			req.con.query("INSERT  INTO suspendapply (ContractID, StartDate, ApplyDate, Status) VALUES ((Select b.ID from meter a, contract b where a.Id = b.MeterID and b.MeterID = '"+meterID+"'), '"+StartDate+"', '"+myDate+"', 0)", function(error, results, fields){
+			req.con.query("INSERT  INTO suspendapply (ContractID, StartDate, ApplyDate, Status, Type) VALUES ((Select b.ID from meter a, contract b where a.Id = b.MeterID and b.MeterID = '"+meterID+"'), '"+StartDate+"', '"+myDate+"', 0, 1)", function(error, results, fields){
 			if (error)
 
 				res.send(JSON.stringify({"status": 500, "error" : error}));
@@ -323,7 +323,7 @@ router.post('/post_suspendapply_status', function(req, res) {
 	//接收傳入的meterID 找出contract 再找出suspendapply的status
 	var meterID = req.body.meterID;
    
-	req.con.query("SELECT Status FROM suspendapply WHERE ContractID = (Select b.ID from meter a, contract b where a.Id = b.MeterID and b.MeterID = '"+ meterID+"') AND Status != -1" , function (error, results, fields) {
+	req.con.query("Select  c.Status, c.Type from meter a, contract b, suspendapply c where a.Id = b.MeterID and b.ID = c.ContractID and b.MeterID = '"+ meterID +"' and b.EndDate is null and c.Status != -1" , function (error, results, fields) {
 		if (error)
 	  		res.send(JSON.stringify({"status": 500, "error" : error}));
 	 	else
@@ -351,7 +351,7 @@ router.post('/cancel_stop_meter', function(req, res) {
 	 	else{
    
 			//update suspendapply table status = -1  where status = 0
-			req.con.query("UPDATE suspendapply SET Status = -1, CancelDate = '"+ myDate +"' WHERE ContractID = (Select b.ID from meter a, contract b where a.Id = b.MeterID and b.MeterID = '"+ meterID+"') AND Status = 0", function(error, results, fields){
+			req.con.query("UPDATE suspendapply SET Status = -1, CancelDate = '"+ myDate +"' WHERE ContractID = (Select b.ID from meter a, contract b where a.Id = b.MeterID and b.MeterID = '"+ meterID+"') AND Status = 0 AND Type = 1", function(error, results, fields){
 			if (error)
 
 				res.send(JSON.stringify({"status": 500, "error" : error}));
@@ -361,6 +361,128 @@ router.post('/cancel_stop_meter', function(req, res) {
 			}); 
 		}
 	});
+});
+
+// cancel stop meter
+router.post('/cancel_recovery_meter', function(req, res) {
+
+	console.log('user recovery meter');
+	console.log(req.body);
+
+	var meterID = req.body.meterID;
+	//var StartDate = req.body.StartDate;
+	var myDate = new Date();  //取出日期時間
+	myDate=myDate.toLocaleDateString();  //將日期取到日就好
+	
+	//meter status update to 1
+	req.con.query("UPDATE meter SET Status = -1 WHERE ID = '"+meterID+"' ", function(error, results, fields){
+		if (error)
+
+	  		res.send(JSON.stringify({"status": 500, "error" : error}));
+	 	else{
+   
+			//update suspendapply table status = -1  where status = 0
+			req.con.query("UPDATE suspendapply SET Status = -1, CancelDate = '"+ myDate +"' WHERE ContractID = (Select b.ID from meter a, contract b where a.Id = b.MeterID and b.MeterID = '"+ meterID+"' and b.EndDate is null) AND Status = 0 AND Type = 2", function(error, results, fields){
+			if (error)
+
+				res.send(JSON.stringify({"status": 500, "error" : error}));
+			else
+
+				res.send(JSON.stringify({"status": 200, "success": true, "error": null, "response": results}));
+			}); 
+		}
+	});
+});
+
+router.post('/abolish_meter', function(req, res) {
+
+	console.log('user abolish meter');
+	console.log(req.body);
+
+	var meterID = req.body.meterID;
+	var userID = req.body.userID;
+
+	var myDate = new Date();  //取出日期時間
+	myDate=myDate.toLocaleDateString();  //將日期取到日就好
+	
+	//meter status update to 1
+	req.con.query("UPDATE contract SET EndDate = '"+ myDate +"' WHERE UserID = '"+ userID +"' AND MeterID = '"+ meterID +"' AND EndDate is null ", function(error, results, fields){
+		if (error)
+
+	  		res.send(JSON.stringify({"status": 500, "error" : error}));
+	 	else{
+   
+			//update suspendapply table status = -1  where status = 0
+			req.con.query("UPDATE meter SET Status = -2, UserID = null WHERE UserID = '"+ userID +"' AND ID = '"+ meterID +"' ", function(error, results, fields){
+			if (error)
+
+				res.send(JSON.stringify({"status": 500, "error" : error}));
+			else
+
+				res.send(JSON.stringify({"status": 200, "success": true, "error": null, "response": results}));
+			}); 
+		}
+	});
+});
+
+//復電申請
+router.post('/recovery_meter', function(req, res) {
+
+	console.log('user recovery meter');
+	console.log(req.body);
+
+	var meterID = req.body.meterID;
+	var userID = req.body.userID;
+	var StartDate = req.body.StartDate;
+
+	var myDate = new Date();  //取出日期時間
+	myDate=myDate.toLocaleDateString();  //將日期取到日就好
+	
+	//meter status update to 0
+	req.con.query("UPDATE meter SET Status = 0 WHERE UserID = '"+ userID +"' AND ID = '"+ meterID +"' ", function(error, results, fields){
+		if (error)
+
+	  		res.send(JSON.stringify({"status": 500, "error" : error}));
+	 	else{
+   
+			req.con.query("INSERT  INTO suspendapply (ContractID, StartDate, ApplyDate, Status, Type) VALUES ((Select b.ID from meter a, contract b where a.Id = b.MeterID and b.MeterID = '"+meterID+"' AND b.EndDate is null), '"+StartDate+"', '"+myDate+"', 0, 2)", function(error, results, fields){
+			if (error)
+
+				res.send(JSON.stringify({"status": 500, "error" : error}));
+			else
+
+				res.send(JSON.stringify({"status": 200, "success": true, "error": null, "response": results}));
+			}); 
+		}
+	});
+});
+
+//get_more_information (傳入meter)
+router.get('/get_more_information', function(req, res) {
+
+	var meterID = req.body.meterID; 
+	req.con.query('SELECT C.ID ,U.FirstName ,U.LastName ,M.Address ,U.ContactAddress ,S.ApplyDate ,S.StartDate ,S.Status ,U.ContactAddress ,S.EndDate FROM suspendapply S,contract C,user U,meter M WHERE S.ContractID = C.ID AND M.ID="'+meterID+'" AND C.MeterID=M.ID AND U.ID=M.UserID ', function (error, results, fields) {
+	 	if (error)
+	  		res.send(JSON.stringify({"status": 500, "error" : error}));
+	 	if (results.length > 0)
+	  		res.send(JSON.stringify({"status": 200, "success": true, "error": null, "response": results}));
+	 	else
+	  		res.send(JSON.stringify({"status": 204, "success": false, "error": null, "response": "empty result"}));
+	});    // 以上代碼錯誤可以再寫更多 debug時可以更輕鬆
+});
+
+//query suspendapply info
+//管理者 req 是使用者發送要求，而res為回覆，參數後可直接改成要回覆的東西 
+router.get('/suspendapply', function(req, res) {
+
+	req.con.query('SELECT S.ID,LastName,FirstName,ContractID,M.Address,S.Status,S.ApplyDate FROM suspendapply S,contract C,user U,meter M WHERE S.ContractID = C.ID AND C.UserID = U.ID AND M.ID=C.MeterID ', function (error, results, fields) {
+		if (error)
+			res.send(JSON.stringify({"status": 500, "error" : error}));
+		if (results.length > 0)
+			res.send(JSON.stringify({"status": 200, "success": true, "error": null, "response": results}));
+		else
+			res.send(JSON.stringify({"status": 204, "success": false, "error": null, "response": "empty result"}));
+	});    // 以上代碼錯誤可以再寫更多 debug時可以更輕鬆
 });
 
 module.exports = router;

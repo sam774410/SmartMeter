@@ -199,7 +199,7 @@
                                 </connections>
                             </button>
                             <imageView userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="pokai" translatesAutoresizingMaskIntoConstraints="NO" id="n44-gi-Ajt">
-                                <rect key="frame" x="67" y="108" width="240" height="128"/>
+                                <rect key="frame" x="62.5" y="29.5" width="250" height="200"/>
                             </imageView>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
@@ -1131,9 +1131,11 @@
                     <navigationItem key="navigationItem" id="Uth-nj-oTq"/>
                     <connections>
                         <outlet property="applyContainerView" destination="3ea-mE-Vdc" id="kMu-2p-n8P"/>
+                        <outlet property="apply_Btn_Outlet" destination="XuI-xj-xAZ" id="5AO-fC-tzc"/>
                         <outlet property="cancel_Btn_Outlet" destination="vG6-jH-RBJ" id="LJA-iK-h5y"/>
                         <outlet property="containerView" destination="j3Z-Se-Xn7" id="eg6-TR-wPr"/>
                         <outlet property="date_TF" destination="iwf-3e-wJg" id="HLl-Ev-LLy"/>
+                        <outlet property="description_lable" destination="IRm-aS-CU2" id="EKs-gJ-fje"/>
                         <outlet property="realCancel_Btn_Outlet" destination="5Nc-XZ-oVH" id="RjT-kQ-95b"/>
                         <outlet property="stepView" destination="Bcm-y7-td2" id="RhS-oe-gFU"/>
                         <segue destination="w0g-tb-Kz9" kind="unwind" identifier="backToMeter" unwindAction="backToMeterList:" id="q4a-N5-5I7"/>

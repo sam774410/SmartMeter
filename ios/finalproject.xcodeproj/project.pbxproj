@@ -82,6 +82,16 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		71177F4021CA3A48003E9063 /* Custom */ = {
+			isa = PBXGroup;
+			children = (
+				7162BC4021A945EE004287E4 /* mainMoreTableViewCell.swift */,
+				719CAE5221BD60D200C81EB7 /* mainPublicTableViewCell.swift */,
+				71427F4E21C396D300B3EE97 /* meterListTableViewCell.swift */,
+			);
+			path = Custom;
+			sourceTree = "<group>";
+		};
 		712FA7B621A46AFC0036A2A7 /* Model */ = {
 			isa = PBXGroup;
 			children = (
@@ -103,6 +113,7 @@
 		712FA7B821A46B140036A2A7 /* Controller */ = {
 			isa = PBXGroup;
 			children = (
+				71177F4021CA3A48003E9063 /* Custom */,
 				711A00DF21A8775200A45A18 /* mainNowViewController.swift */,
 				712FD6E221A441DB00248881 /* AppDelegate.swift */,
 				712FD6E421A441DB00248881 /* ViewController.swift */,
@@ -111,16 +122,13 @@
 				7176F1AA21A8F6BF004F2C24 /* mainHistoryViewController.swift */,
 				7176F1AC21A8F72D004F2C24 /* mainApplyPowerOutViewController.swift */,
 				7176F1AE21A8F73D004F2C24 /* mainMoreViewController.swift */,
-				7162BC4021A945EE004287E4 /* mainMoreTableViewCell.swift */,
 				71F0AB1721B6E25100300E1E /* userUpdateViewController.swift */,
 				71F0AB1921B6E44900300E1E /* userPwdUpdateViewController.swift */,
 				717E5DA221BBCD4F00A79473 /* newsViewController.swift */,
 				71182BBE21BE4219006EC01D /* realTimeInfoViewController.swift */,
-				719CAE5221BD60D200C81EB7 /* mainPublicTableViewCell.swift */,
 				719CAE5021BD5DDD00C81EB7 /* mainPublicInfoViewController.swift */,
 				71182BC021BE4B44006EC01D /* pastInfoViewController.swift */,
 				71427F4C21C395A500B3EE97 /* meterListViewController.swift */,
-				71427F4E21C396D300B3EE97 /* meterListTableViewCell.swift */,
 				71427F5021C3E03E00B3EE97 /* newMeterViewController.swift */,
 			);
 			name = Controller;

@@ -26,12 +26,14 @@ class mainApplyPowerOutViewController: UIViewController {
     var startDate: String?
     
     var currentStep = 0
-    
+    //暫停或廢止
     var isSuspendOrStop: Bool?
     var meterID: String?
     var userID: String?
+    //isStepView
     var isShowStepView: Bool?
-    
+    //復電
+    var isRecoveryMeter: Bool?
     
     //apply form
     @IBOutlet weak var applyContainerView: UIView!
@@ -49,42 +51,85 @@ class mainApplyPowerOutViewController: UIViewController {
     @IBOutlet weak var realCancel_Btn_Outlet: PMSuperButton!
     @IBOutlet weak var cancel_Btn_Outlet: PMSuperButton!
     
+    
+    @IBOutlet weak var apply_Btn_Outlet: PMSuperButton!
+    
+    @IBOutlet weak var description_lable: UILabel!
     //cancel apply
     @IBAction func cancel_Btn(_ sender: Any) {
         
-        let alert = CDAlertView(title: "確定取消申請？", message: "", type: CDAlertViewType.warning)
-        let cancelAction = CDAlertViewAction(title: "取消", textColor: .red)
-        let okAction = CDAlertViewAction(title: "確定") { (CDAlertViewAction) -> Bool in
-            
-            ALERT().banner(tittle: "斷電申請已取消", subtitle: "", style: BannerStyle.success)
-            
-            //handle cancel action
-            
-            if let meterID = self.meterID {
-                
-                let parameters = ["meterID": Int(meterID)] as [String: Any]
-                
-                USER_API().user_cancelStopMeter(keys: parameters, completion: { (isSuccess) -> () in
-                    
-                    if isSuccess {
-                        
-                        ALERT().banner(tittle: "申請已取消", subtitle: "", style: BannerStyle.success)
-                    }else {
-                        
-                        ALERT().banner(tittle: "請稍後再試", subtitle: "", style: BannerStyle.warning)
-                    }
-                })
-            }
-            
-            
-            self.navigationController?.popViewController(animated: true)
-            
-            return true
-        }
         
-        alert.add(action: cancelAction)
-        alert.add(action: okAction)
-        alert.show()
+        
+        if let isRecovery = isRecoveryMeter{
+            
+            if isRecovery {
+                
+                //取消復電
+                let alert = CDAlertView(title: "確定取消申請回復用電？", message: "", type: CDAlertViewType.warning)
+                let cancelAction = CDAlertViewAction(title: "取消", textColor: .red)
+                let okAction = CDAlertViewAction(title: "確定") { (CDAlertViewAction) -> Bool in
+                    
+                    //handle cancel recovery
+                    if let meterID = self.meterID {
+                        
+                        let parameters = ["meterID": Int(meterID)] as [String: Any]
+                        
+                        USER_API().user_cancelRecoveryMeter(keys: parameters, completion: { (isSuccess) -> () in
+                            
+                            if isSuccess {
+                                
+                                ALERT().banner(tittle: "申請復電已取消", subtitle: "", style: BannerStyle.success)
+                            }else {
+                                
+                                ALERT().banner(tittle: "請稍後再試", subtitle: "", style: BannerStyle.warning)
+                            }
+                        })
+                    }
+                    
+                self.navigationController?.popViewController(animated: true)
+                    return true
+                }
+                
+                alert.add(action: cancelAction)
+                alert.add(action: okAction)
+                alert.show()
+                
+            } else {
+                //取消申請斷電
+                
+                let alert = CDAlertView(title: "確定取消申請暫停用電？", message: "", type: CDAlertViewType.warning)
+                let cancelAction = CDAlertViewAction(title: "取消", textColor: .red)
+                let okAction = CDAlertViewAction(title: "確定") { (CDAlertViewAction) -> Bool in
+                    
+                    //handle cancel action
+                    
+                    if let meterID = self.meterID {
+                        
+                        let parameters = ["meterID": Int(meterID)] as [String: Any]
+                        
+                        USER_API().user_cancelStopMeter(keys: parameters, completion: { (isSuccess) -> () in
+                            
+                            if isSuccess {
+                                
+                                ALERT().banner(tittle: "申請斷電已取消", subtitle: "", style: BannerStyle.success)
+                            }else {
+                                
+                                ALERT().banner(tittle: "請稍後再試", subtitle: "", style: BannerStyle.warning)
+                            }
+                        })
+                    }
+                    
+                    
+                    self.navigationController?.popViewController(animated: true)
+                    
+                    return true
+                }
+                
+                alert.add(action: cancelAction)
+                alert.add(action: okAction)
+                alert.show()
+            }
+        }
     }
     
     @IBOutlet weak var stepView: StepProgressView!
@@ -97,31 +142,29 @@ class mainApplyPowerOutViewController: UIViewController {
             view.endEditing(true)
             self.log.debug("start date： \(startDate)")
             
-            let alert = CDAlertView(title: "斷電申請", message: "起始日為：\(self.startDate!)", type: CDAlertViewType.warning)
-            let cancelAction = CDAlertViewAction(title: "取消", textColor: .red)
-            let okAction = CDAlertViewAction(title: "確認送出", handler: { (CDAlertViewAction) -> Bool in
+            if let isRecovery = isRecoveryMeter {
                 
-                //do auth
+                //復電申請
                 
-                self.auththentication(completion: { (isOk) in
+                self.log.debug("ready for recovery")
+                let alert = CDAlertView(title: "復電申請", message: "起始日為：\(self.startDate!)", type: CDAlertViewType.warning)
+                let cancelAction = CDAlertViewAction(title: "取消", textColor: .red)
+                let okAction = CDAlertViewAction(title: "確認送出") { (CDAlertViewAction) -> Bool in
                     
-                    if isOk {
+                    //do auth
+                    self.auththentication(completion: { (isOk) in
                         
-                        // is auth
-                        DispatchQueue.main.async {
+                        if isOk {
                             
-                            SVProgressHUD.show()
-                            
-                            self.applyContainerView.isHidden = true
-                            self.containerView.isHidden = false
-                            
-                            if let isSuspendOrStop = self.isSuspendOrStop, let meterID = self.meterID, let userID = self.userID{
+                            DispatchQueue.main.async {
                                 
-                                self.log.debug("\(isSuspendOrStop)\(meterID)\(userID)")
+                                SVProgressHUD.show()
+                                self.applyContainerView.isHidden = true
+                                self.containerView.isHidden = false
                                 
-                                let parameters = ["meterID": Int(meterID), "StartDate": startDate] as [String: Any]
+                                let parameters = ["meterID": Int(self.meterID!), "StartDate": startDate, "userID": Int(self.userID!)] as [String: Any]
                                 
-                                USER_API().user_stopMeter(keys: parameters, completion: { (isSuccess) in
+                                USER_API().user_recoveryMeter(keys: parameters, completion: { (isSuccess) in
                                     
                                     if isSuccess {
                                         
@@ -130,6 +173,7 @@ class mainApplyPowerOutViewController: UIViewController {
                                         ALERT().banner(tittle: "申請已送出", subtitle: "我們即將為您審核", style: BannerStyle.success)
                                         
                                         self.stepViewSetUp(curretStep: 1)
+                                        //self.meterStatusQuery()
                                     } else {
                                         
                                         SVProgressHUD.dismiss()
@@ -138,19 +182,82 @@ class mainApplyPowerOutViewController: UIViewController {
                                     }
                                 })
                             }
+                        } else {
+                            
+                            //can't auth
+                            ALERT().banner(tittle: "驗證失敗", subtitle: "請稍後再試", style: BannerStyle.danger)
                         }
-                    } else {
+                    })
+                    
+                    return true
+                }
+                
+                alert.add(action: cancelAction)
+                alert.add(action: okAction)
+                alert.show()
+                
+            } else {
+                
+                //斷電申請
+                self.log.debug("ready for apply")
+                
+                let alert = CDAlertView(title: "斷電申請", message: "起始日為：\(self.startDate!)", type: CDAlertViewType.warning)
+                let cancelAction = CDAlertViewAction(title: "取消", textColor: .red)
+                let okAction = CDAlertViewAction(title: "確認送出", handler: { (CDAlertViewAction) -> Bool in
+                    
+                    //do auth
+                    
+                    self.auththentication(completion: { (isOk) in
                         
-                        //can't auth
-                        ALERT().banner(tittle: "驗證失敗", subtitle: "請稍後再試", style: BannerStyle.danger)
-                    }
+                        if isOk {
+                            
+                            // is auth
+                            DispatchQueue.main.async {
+                                
+                                SVProgressHUD.show()
+                                
+                                self.applyContainerView.isHidden = true
+                                self.containerView.isHidden = false
+                                
+                                if let isSuspendOrStop = self.isSuspendOrStop, let meterID = self.meterID, let userID = self.userID{
+                                    
+                                    self.log.debug("\(isSuspendOrStop)\(meterID)\(userID)")
+                                    
+                                    let parameters = ["meterID": Int(meterID), "StartDate": startDate] as [String: Any]
+                                    
+                                    USER_API().user_stopMeter(keys: parameters, completion: { (isSuccess) in
+                                        
+                                        if isSuccess {
+                                            
+                                            SVProgressHUD.dismiss()
+                                            
+                                            ALERT().banner(tittle: "申請已送出", subtitle: "我們即將為您審核", style: BannerStyle.success)
+                                            
+                                            self.stepViewSetUp(curretStep: 1)
+                                        } else {
+                                            
+                                            SVProgressHUD.dismiss()
+                                            
+                                            ALERT().banner(tittle: "請稍後再試", subtitle: "", style: BannerStyle.warning)
+                                        }
+                                    })
+                                }
+                            }
+                        } else {
+                            
+                            //can't auth
+                            ALERT().banner(tittle: "驗證失敗", subtitle: "請稍後再試", style: BannerStyle.danger)
+                        }
+                    })
+                    return true
                 })
-                return true
-            })
+                
+                alert.add(action: cancelAction)
+                alert.add(action: okAction)
+                alert.show()
+            }
             
-            alert.add(action: cancelAction)
-            alert.add(action: okAction)
-            alert.show()
+
         } else {
             
             date_TF.shake()
@@ -174,20 +281,6 @@ class mainApplyPowerOutViewController: UIViewController {
         
         stepInit()
         
-        if let isShowStepView = isShowStepView {
-            
-            if isShowStepView {
-                
-                //show step
-                self.applyContainerView.isHidden = true
-            } else {
-                
-                //handle apply
-                self.containerView.isHidden = true
-                
-            }
-        }
-       
         if let isSuspendOrStop = isSuspendOrStop , let meterID = meterID {
             
             log.debug(isSuspendOrStop)
@@ -200,8 +293,33 @@ class mainApplyPowerOutViewController: UIViewController {
             log.debug("USER AUTO ID： \(userID!)")
         }
         
-        //query step
-        meterStatusQuery()
+        //change ui
+        if let isRecovery = isRecoveryMeter {
+            
+            description_lable.text = "復電日期"
+            apply_Btn_Outlet.setTitle("申請復電", for: .normal)
+            //self.realCancel_Btn_Outlet.isHidden = true
+        }
+       
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        
+        if let isShowStepView = isShowStepView {
+            
+            if isShowStepView {
+                
+                //show step
+                self.applyContainerView.isHidden = true
+                //query step
+                meterStatusQuery()
+            } else {
+                
+                //handle apply
+                self.containerView.isHidden = true
+                
+            }
+        }
     }
     
     //query meter status
@@ -217,18 +335,46 @@ class mainApplyPowerOutViewController: UIViewController {
                 
                 self.log.warning(response)
                 
-                if response == "0" {
+                if response[1] == "2" {
                     
-                    self.stepViewSetUp(curretStep: 1)
-                } else if response == "1" {
+                    //申請復電
                     
-                    self.stepViewSetUp(curretStep: 2)
-                    self.realCancel_Btn_Outlet.isHidden = true
-                }else if response == "2" {
+                    self.isRecoveryMeter = true
                     
-                    self.stepViewSetUp(curretStep: 4)
-                    self.realCancel_Btn_Outlet.isHidden = true
+                    if response[0] == "0" {
+                        
+                        self.stepViewSetUp(curretStep: 1)
+                        //self.realCancel_Btn_Outlet.isHidden = true
+                    } else if response[0] == "1" {
+                        
+                        self.stepViewSetUp(curretStep: 2)
+                        self.realCancel_Btn_Outlet.isHidden = true
+                    }else if response[0] == "2" {
+                        
+                        self.stepViewSetUp(curretStep: 4)
+                        self.realCancel_Btn_Outlet.isHidden = true
+                    }
+                } else {
+                    
+                    //申請斷電
+                    self.isRecoveryMeter = false
+                    
+                    if response[0] == "0" {
+                        
+                        self.stepViewSetUp(curretStep: 1)
+                        
+                    } else if response[0] == "1" {
+                        
+                        self.stepViewSetUp(curretStep: 2)
+                        self.realCancel_Btn_Outlet.isHidden = true
+                    }else if response[0] == "2" {
+                        
+                        self.stepViewSetUp(curretStep: 4)
+                        self.realCancel_Btn_Outlet.isHidden = true
+                    }
                 }
+
+                
                 
                 SVProgressHUD.dismiss()
             }
@@ -261,7 +407,7 @@ class mainApplyPowerOutViewController: UIViewController {
     
     func stepInit(){
         
-        stepView.steps = ["已送出申請", "待審核中", "審核中", "已審核", "斷電申請成功"]
+        stepView.steps = ["已送出申請", "待審核中", "審核中", "已審核", "申請成功"]
         //stepView.details = [0: "The beginning", 3: "The end"] // appears below step title
         
         stepView.stepShape = .circle

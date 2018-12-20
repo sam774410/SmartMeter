@@ -10,6 +10,8 @@ import UIKit
 import SVProgressHUD
 import CDAlertView
 import PullToRefresh
+import LocalAuthentication
+import NotificationBannerSwift
 
 class meterListViewController: UIViewController, UITableViewDataSource, UITableViewDelegate
 {
@@ -53,6 +55,14 @@ class meterListViewController: UIViewController, UITableViewDataSource, UITableV
             let recoveryAction = UIAlertAction(title: "恢復用電", style: .default) { (UIAlertAction) in
                 
                 //recovery action here
+                if let meterStatusVC = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "meterStatusVC") as? mainApplyPowerOutViewController{
+                    
+                    //meterStatusVC.isSuspendOrStop = true
+                    meterStatusVC.isRecoveryMeter = true
+                    meterStatusVC.isShowStepView = false
+                    meterStatusVC.meterID = self.meterDataArray[indexPath.row].meterID
+                    self.navigationController?.pushViewController(meterStatusVC, animated: true)
+                }
             }
             
             let cancelAction = UIAlertAction(title: "取消", style: .destructive, handler: nil)
@@ -82,10 +92,43 @@ class meterListViewController: UIViewController, UITableViewDataSource, UITableV
                 
                 if let meterStatusVC = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "meterStatusVC") as? mainApplyPowerOutViewController{
                     
-                    meterStatusVC.isSuspendOrStop = false
-                    meterStatusVC.isShowStepView = false
-                    meterStatusVC.meterID = self.meterDataArray[indexPath.row].meterID
-                    self.navigationController?.pushViewController(meterStatusVC, animated: true)
+                    
+                    let alert = CDAlertView(title: "確定廢止用電？", message: "", type: CDAlertViewType.warning)
+                    let cancelAction = CDAlertViewAction(title: "取消", textColor: .red)
+                    let okAction = CDAlertViewAction(title: "確定", handler: { (CDAlertViewAction) -> Bool in
+                        
+                        self.auththentication(completion: { (isSuccess) in
+                            
+                            if isSuccess {
+                                
+                                //廢止用電
+                                
+                                let parameters = ["userID": self.userID!, "meterID": Int(self.meterDataArray[indexPath.row].meterID!)] as [String: Any]
+                                
+                                USER_API().user_abolishMeter(keys: parameters, completion: { (isSuccess) in
+                                    
+                                    if isSuccess {
+                                        
+                                        ALERT().banner(tittle: "廢止電表申請成功", subtitle: "電表編號：\(self.meterDataArray[indexPath.row].meterID!)", style: BannerStyle.success)
+                                        
+                                        //reload meter
+
+                                        self.meterDataArray = [METER_DATAMODEL]()
+                                        self.loadMeterData()
+                                    } else {
+                                        
+                                        ALERT().banner(tittle: "請稍後再試", subtitle: "", style: BannerStyle.warning)
+                                    }
+                                })
+                            }
+                        })
+                        
+                        return true
+                    })
+                    
+                    alert.add(action: cancelAction)
+                    alert.add(action: okAction)
+                    alert.show()
                 }
             }
             
@@ -204,6 +247,40 @@ class meterListViewController: UIViewController, UITableViewDataSource, UITableV
                 })
                 
             }
+        }
+    }
+    
+    
+    func auththentication(completion: @escaping(Bool) -> ()) {
+        
+        let context = LAContext()
+        var error: NSError?
+        let description: String = "驗證起來！"
+        var isSuccess = false
+        
+        if context.canEvaluatePolicy(.deviceOwnerAuthenticationWithBiometrics, error: &error) {
+            
+            context.evaluatePolicy(.deviceOwnerAuthenticationWithBiometrics, localizedReason: description) { (success, error) in
+                
+                if (success) {
+                    
+                    self.log.info("user廢止驗證成功")
+                    
+                    isSuccess = true
+                    completion(isSuccess)
+                    
+                } else {
+                    
+                    self.log.info("user廢止驗證失敗")
+                    
+                    isSuccess = false
+                    completion(isSuccess)
+                }
+            }
+        } else {
+            
+            let errorDescription = error?.userInfo["NSLocalizedDescription"] ?? ""
+            print(errorDescription) // Biometry is not available on this device.
         }
     }
 

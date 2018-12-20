@@ -31,6 +31,7 @@ struct METER_DATAMODEL {
     var meterID: String?
     var meterAddress: String?
     var meterStatus: String?
+    var meterSuspendType: String?
 }
 
 class USER_API {
@@ -274,8 +275,7 @@ class USER_API {
                         item.meterAddress = jsonResult["response"][i]["Address"].stringValue
                         item.meterStatus = jsonResult["response"][i]["Status"].stringValue
 
-                        meterData.append(item)
-//                        self.log.info(jsonResult["response"][i]["Address"])
+                        meterData.append(item)                      
                     }
                 
                     completion(meterData, isSuccess)
@@ -384,7 +384,7 @@ class USER_API {
     }
     
     
-    func user_querySuspendStatus(keys: [String: Any], completion: @escaping(String)->()) {
+    func user_querySuspendStatus(keys: [String: Any], completion: @escaping([String])->()) {
         
         Alamofire.request(link!+"/users/post_suspendapply_status", method: .post, parameters: keys, encoding: URLEncoding.default, headers: nil).responseJSON { (response) in
             
@@ -394,23 +394,25 @@ class USER_API {
             
             if jsonResult["status"] == 200 {
                 
-                self.log.debug("query meter suspend successfully")
+                self.log.debug("query meter suspend successfully \(keys)")
+                var result: [String] = []
                 
-                let status = jsonResult["response"][0]["Status"].stringValue
+                result.append(jsonResult["response"][0]["Status"].stringValue)
+                result.append(jsonResult["response"][0]["Type"].stringValue)
                 
-                self.log.debug(status)
+                self.log.debug(result)
                 
-                completion(status)
+                completion(result)
             }  else {
                 
                 self.log.debug("query meter suspend fail")
                 
-                completion("0")
+                completion([])
             }
         }
     }
     
-    
+    //取消申請
     func user_cancelStopMeter(keys: [String: Any], completion: @escaping(Bool)->()) {
         
         var isSuccess = false
@@ -429,6 +431,79 @@ class USER_API {
             }else {
                 
                 self.log.debug("cancel stop meter fail")
+                completion(isSuccess)
+            }
+        }
+    }
+    
+    //取消回復用電
+    func user_cancelRecoveryMeter(keys: [String: Any], completion: @escaping(Bool)->()) {
+        
+        var isSuccess = false
+        
+        Alamofire.request(link!+"/users/cancel_recovery_meter", method: .post, parameters: keys, encoding: URLEncoding.default, headers: nil).responseJSON { (response) in
+            
+            self.log.debug(response.result)
+            
+            let jsonResult: JSON = JSON(response.result.value!)
+            
+            if jsonResult["status"] == 200 {
+                
+                self.log.debug("cancel recovery meter successfully")
+                isSuccess = true
+                completion(isSuccess)
+            }else {
+                
+                self.log.debug("cancel recovery meter fail")
+                completion(isSuccess)
+            }
+        }
+    }
+    
+    //廢止用電
+    func user_abolishMeter(keys: [String: Any], completion: @escaping(Bool)->()) {
+        
+        var isSuccess = false
+        
+        Alamofire.request(link!+"/users/abolish_meter", method: .post, parameters: keys, encoding: URLEncoding.default, headers: nil).responseJSON { (response) in
+            
+            self.log.debug(response.result.value)
+            
+            let jsonResult: JSON = JSON(response.result.value!)
+            
+            if jsonResult["status"] == 200 {
+                
+                self.log.debug("user abolish meter successfully")
+                isSuccess = true
+                completion(isSuccess)
+            } else {
+                
+                self.log.debug("user abolish meter fail")
+                completion(isSuccess)
+            }
+        }
+    }
+    
+    
+    //恢復用電
+    func user_recoveryMeter(keys: [String: Any], completion: @escaping(Bool)->()){
+        
+        var isSuccess = false
+    
+        Alamofire.request(link!+"/users/recovery_meter", method: .post, parameters: keys, encoding: URLEncoding.default, headers: nil).responseJSON { (response) in
+            
+            self.log.debug(response.result.value)
+            
+            let jsonResult: JSON = JSON(response.result.value!)
+            
+            if jsonResult["status"] == 200 {
+                
+                self.log.debug("user recovery meter apply successfully")
+                isSuccess = true
+                completion(isSuccess)
+            } else {
+                
+                self.log.debug("user recovery meter apply fail")
                 completion(isSuccess)
             }
         }
