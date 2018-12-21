@@ -8,8 +8,6 @@
 
 /* Begin PBXBuildFile section */
 		5ED5013CCE8962EFFBFFC967 /* Pods_finalproject.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A68161C38B9A74028C8030AB /* Pods_finalproject.framework */; };
-		71182BBF21BE4219006EC01D /* realTimeInfoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71182BBE21BE4219006EC01D /* realTimeInfoViewController.swift */; };
-		71182BC121BE4B44006EC01D /* pastInfoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71182BC021BE4B44006EC01D /* pastInfoViewController.swift */; };
 		711A00E021A8775200A45A18 /* mainNowViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 711A00DF21A8775200A45A18 /* mainNowViewController.swift */; };
 		712FD6E321A441DB00248881 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 712FD6E221A441DB00248881 /* AppDelegate.swift */; };
 		712FD6E521A441DB00248881 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 712FD6E421A441DB00248881 /* ViewController.swift */; };
@@ -29,6 +27,7 @@
 		717E5DA321BBCD4F00A79473 /* newsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 717E5DA221BBCD4F00A79473 /* newsViewController.swift */; };
 		719CAE5121BD5DDD00C81EB7 /* mainPublicInfoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 719CAE5021BD5DDD00C81EB7 /* mainPublicInfoViewController.swift */; };
 		719CAE5321BD60D200C81EB7 /* mainPublicTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 719CAE5221BD60D200C81EB7 /* mainPublicTableViewCell.swift */; };
+		71D6D48A21CCC8920061428D /* supplyController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71D6D48921CCC8920061428D /* supplyController.swift */; };
 		71F090F021A501DC00656B4C /* loginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71F090EF21A501DC00656B4C /* loginViewController.swift */; };
 		71F090F221A59C7100656B4C /* registerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71F090F121A59C7100656B4C /* registerViewController.swift */; };
 		71F0AB1821B6E25100300E1E /* userUpdateViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71F0AB1721B6E25100300E1E /* userUpdateViewController.swift */; };
@@ -39,8 +38,6 @@
 /* Begin PBXFileReference section */
 		68C9A211AEB7A29015804A76 /* Pods-finalproject.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-finalproject.release.xcconfig"; path = "Pods/Target Support Files/Pods-finalproject/Pods-finalproject.release.xcconfig"; sourceTree = "<group>"; };
 		6B6F52A226F252D2109BD990 /* Pods-finalproject.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-finalproject.debug.xcconfig"; path = "Pods/Target Support Files/Pods-finalproject/Pods-finalproject.debug.xcconfig"; sourceTree = "<group>"; };
-		71182BBE21BE4219006EC01D /* realTimeInfoViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = realTimeInfoViewController.swift; sourceTree = "<group>"; };
-		71182BC021BE4B44006EC01D /* pastInfoViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = pastInfoViewController.swift; sourceTree = "<group>"; };
 		711A00DF21A8775200A45A18 /* mainNowViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = mainNowViewController.swift; sourceTree = "<group>"; };
 		712FD6DF21A441DB00248881 /* finalproject.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = finalproject.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		712FD6E221A441DB00248881 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -62,6 +59,7 @@
 		717E5DA221BBCD4F00A79473 /* newsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = newsViewController.swift; sourceTree = "<group>"; };
 		719CAE5021BD5DDD00C81EB7 /* mainPublicInfoViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = mainPublicInfoViewController.swift; sourceTree = "<group>"; };
 		719CAE5221BD60D200C81EB7 /* mainPublicTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = mainPublicTableViewCell.swift; sourceTree = "<group>"; };
+		71D6D48921CCC8920061428D /* supplyController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = supplyController.swift; sourceTree = "<group>"; };
 		71F090EF21A501DC00656B4C /* loginViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = loginViewController.swift; sourceTree = "<group>"; };
 		71F090F121A59C7100656B4C /* registerViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = registerViewController.swift; sourceTree = "<group>"; };
 		71F0AB1721B6E25100300E1E /* userUpdateViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = userUpdateViewController.swift; sourceTree = "<group>"; };
@@ -97,6 +95,7 @@
 			children = (
 				7162864E21AB961300D40850 /* config.swift */,
 				7176F1A821A8F055004F2C24 /* userController.swift */,
+				71D6D48921CCC8920061428D /* supplyController.swift */,
 			);
 			name = Model;
 			sourceTree = "<group>";
@@ -125,9 +124,7 @@
 				71F0AB1721B6E25100300E1E /* userUpdateViewController.swift */,
 				71F0AB1921B6E44900300E1E /* userPwdUpdateViewController.swift */,
 				717E5DA221BBCD4F00A79473 /* newsViewController.swift */,
-				71182BBE21BE4219006EC01D /* realTimeInfoViewController.swift */,
 				719CAE5021BD5DDD00C81EB7 /* mainPublicInfoViewController.swift */,
-				71182BC021BE4B44006EC01D /* pastInfoViewController.swift */,
 				71427F4C21C395A500B3EE97 /* meterListViewController.swift */,
 				71427F5021C3E03E00B3EE97 /* newMeterViewController.swift */,
 			);
@@ -348,10 +345,10 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				71D6D48A21CCC8920061428D /* supplyController.swift in Sources */,
 				711A00E021A8775200A45A18 /* mainNowViewController.swift in Sources */,
 				71427F5121C3E03E00B3EE97 /* newMeterViewController.swift in Sources */,
 				7162BC4121A945EE004287E4 /* mainMoreTableViewCell.swift in Sources */,
-				71182BC121BE4B44006EC01D /* pastInfoViewController.swift in Sources */,
 				712FD6E521A441DB00248881 /* ViewController.swift in Sources */,
 				7176F1A921A8F055004F2C24 /* userController.swift in Sources */,
 				71F0AB1C21B7D01900300E1E /* alert.swift in Sources */,
@@ -367,7 +364,6 @@
 				7162864F21AB961300D40850 /* config.swift in Sources */,
 				71F0AB1821B6E25100300E1E /* userUpdateViewController.swift in Sources */,
 				7176F1AD21A8F72D004F2C24 /* mainApplyPowerOutViewController.swift in Sources */,
-				71182BBF21BE4219006EC01D /* realTimeInfoViewController.swift in Sources */,
 				717E5DA321BBCD4F00A79473 /* newsViewController.swift in Sources */,
 				719CAE5321BD60D200C81EB7 /* mainPublicTableViewCell.swift in Sources */,
 			);

@@ -27,8 +27,8 @@ class ViewController: UIViewController, BWWalkthroughViewControllerDelegate {
         backGround.alpha = 0
         view.addSubview(backGround)
         
-        logo.image = UIImage(named: "wenhe_single")
-        logo.frame = CGRect(x: 0, y: 0, width: 300, height: 300)
+        logo.image = UIImage(named: "pokai")
+        logo.frame = CGRect(x: 0, y: 0, width: 200, height: 200)
         logo.center = view.center
         view.addSubview(logo)
     }

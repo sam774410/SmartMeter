@@ -65,7 +65,7 @@ class mainApplyPowerOutViewController: UIViewController {
             if isRecovery {
                 
                 //取消復電
-                let alert = CDAlertView(title: "確定取消申請回復用電？", message: "", type: CDAlertViewType.warning)
+                let alert = CDAlertView(title: "確定取消？", message: "確定取消申請回復用電？", type: CDAlertViewType.warning)
                 let cancelAction = CDAlertViewAction(title: "取消", textColor: .red)
                 let okAction = CDAlertViewAction(title: "確定") { (CDAlertViewAction) -> Bool in
                     
@@ -97,7 +97,7 @@ class mainApplyPowerOutViewController: UIViewController {
             } else {
                 //取消申請斷電
                 
-                let alert = CDAlertView(title: "確定取消申請暫停用電？", message: "", type: CDAlertViewType.warning)
+                let alert = CDAlertView(title: "確定取消？", message: "確定取消申請暫停用電？", type: CDAlertViewType.warning)
                 let cancelAction = CDAlertViewAction(title: "取消", textColor: .red)
                 let okAction = CDAlertViewAction(title: "確定") { (CDAlertViewAction) -> Bool in
                     

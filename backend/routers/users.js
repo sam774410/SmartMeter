@@ -305,7 +305,7 @@ router.post('/stop_meter', function(req, res) {
 	 	else{
    
 			//開始新增一筆 Suspendapply的Tuple 
-			req.con.query("INSERT  INTO suspendapply (ContractID, StartDate, ApplyDate, Status, Type) VALUES ((Select b.ID from meter a, contract b where a.Id = b.MeterID and b.MeterID = '"+meterID+"'), '"+StartDate+"', '"+myDate+"', 0, 1)", function(error, results, fields){
+			req.con.query("INSERT  INTO suspendapply (ContractID, StartDate, ApplyDate, Status, Type) VALUES ((Select b.ID from meter a, contract b where a.Id = b.MeterID and b.MeterID = '"+meterID+"' and b.EndDate is null), '"+StartDate+"', '"+myDate+"', 0, 1)", function(error, results, fields){
 			if (error)
 
 				res.send(JSON.stringify({"status": 500, "error" : error}));
@@ -351,7 +351,7 @@ router.post('/cancel_stop_meter', function(req, res) {
 	 	else{
    
 			//update suspendapply table status = -1  where status = 0
-			req.con.query("UPDATE suspendapply SET Status = -1, CancelDate = '"+ myDate +"' WHERE ContractID = (Select b.ID from meter a, contract b where a.Id = b.MeterID and b.MeterID = '"+ meterID+"') AND Status = 0 AND Type = 1", function(error, results, fields){
+			req.con.query("UPDATE suspendapply SET Status = -1, CancelDate = '"+ myDate +"' WHERE ContractID = (Select b.ID from meter a, contract b where a.Id = b.MeterID and b.MeterID = '"+ meterID+"' and b.EndDate is null) AND Status = 0 AND Type = 1", function(error, results, fields){
 			if (error)
 
 				res.send(JSON.stringify({"status": 500, "error" : error}));

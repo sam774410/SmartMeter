@@ -5,6 +5,7 @@ require('dotenv').config();
 
 var countys = require('./routers/countys');
 var users = require('./routers/users');
+var supply = require('./routers/supply');
 
 var app = express();
 
@@ -61,8 +62,9 @@ app.get('/', function(req, res, next) {
 	res.send('Hello');
 });
 
-app.use('/users',users);
-app.use('/countys',countys);
+app.use('/users', users);
+app.use('/supply', supply);
+app.use('/countys', countys);
 
 
 
