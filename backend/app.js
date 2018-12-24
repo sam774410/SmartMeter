@@ -9,9 +9,10 @@ var supply = require('./routers/supply');
 
 var app = express();
 
-//body解析
+//body 解析
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended:false}));
+
 
 
 //Database connection
