@@ -20,6 +20,7 @@
 		71427F5121C3E03E00B3EE97 /* newMeterViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71427F5021C3E03E00B3EE97 /* newMeterViewController.swift */; };
 		7162864F21AB961300D40850 /* config.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7162864E21AB961300D40850 /* config.swift */; };
 		7162BC4121A945EE004287E4 /* mainMoreTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7162BC4021A945EE004287E4 /* mainMoreTableViewCell.swift */; };
+		7165C6B721CF9DDB0051AA31 /* mainNowTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7165C6B621CF9DDB0051AA31 /* mainNowTableViewCell.swift */; };
 		7176F1A921A8F055004F2C24 /* userController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7176F1A821A8F055004F2C24 /* userController.swift */; };
 		7176F1AB21A8F6BF004F2C24 /* mainHistoryViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7176F1AA21A8F6BF004F2C24 /* mainHistoryViewController.swift */; };
 		7176F1AD21A8F72D004F2C24 /* mainApplyPowerOutViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7176F1AC21A8F72D004F2C24 /* mainApplyPowerOutViewController.swift */; };
@@ -52,6 +53,7 @@
 		71427F5021C3E03E00B3EE97 /* newMeterViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = newMeterViewController.swift; sourceTree = "<group>"; };
 		7162864E21AB961300D40850 /* config.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = config.swift; sourceTree = "<group>"; };
 		7162BC4021A945EE004287E4 /* mainMoreTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = mainMoreTableViewCell.swift; sourceTree = "<group>"; };
+		7165C6B621CF9DDB0051AA31 /* mainNowTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = mainNowTableViewCell.swift; sourceTree = "<group>"; };
 		7176F1A821A8F055004F2C24 /* userController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = userController.swift; sourceTree = "<group>"; };
 		7176F1AA21A8F6BF004F2C24 /* mainHistoryViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = mainHistoryViewController.swift; sourceTree = "<group>"; };
 		7176F1AC21A8F72D004F2C24 /* mainApplyPowerOutViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = mainApplyPowerOutViewController.swift; sourceTree = "<group>"; };
@@ -86,6 +88,7 @@
 				7162BC4021A945EE004287E4 /* mainMoreTableViewCell.swift */,
 				719CAE5221BD60D200C81EB7 /* mainPublicTableViewCell.swift */,
 				71427F4E21C396D300B3EE97 /* meterListTableViewCell.swift */,
+				7165C6B621CF9DDB0051AA31 /* mainNowTableViewCell.swift */,
 			);
 			path = Custom;
 			sourceTree = "<group>";
@@ -352,6 +355,7 @@
 				712FD6E521A441DB00248881 /* ViewController.swift in Sources */,
 				7176F1A921A8F055004F2C24 /* userController.swift in Sources */,
 				71F0AB1C21B7D01900300E1E /* alert.swift in Sources */,
+				7165C6B721CF9DDB0051AA31 /* mainNowTableViewCell.swift in Sources */,
 				719CAE5121BD5DDD00C81EB7 /* mainPublicInfoViewController.swift in Sources */,
 				712FD6E321A441DB00248881 /* AppDelegate.swift in Sources */,
 				71427F4F21C396D300B3EE97 /* meterListTableViewCell.swift in Sources */,

@@ -485,4 +485,23 @@ router.get('/suspendapply', function(req, res) {
 	});    // 以上代碼錯誤可以再寫更多 debug時可以更輕鬆
 });
 
+router.post('/month_fee', function(req, res) {
+	//下面這串不用理會  單純原本用下ＳＱＬ想找出 電表跟費用
+	//SELECT MonthFee FROM monthfee M,contract C WHERE  Year='"+Year+"' AND Month='"+Month+"' AND C.UserID='"+userID+"' AND C.ID=M.ContractID
+	//var Year = feeDate.getFullYear();
+	//var Month = feeDate.getMonth();
+
+	var userID = req.body.userID;
+	var feeDate = new Date();		//取出日期時間
+	feeDate=feeDate.toLocaleDateString();		//將日期取到日就好
+
+	req.con.query("call MonthFee_Select('"+userID+"','"+feeDate+"')" , function (error, results, fields) {
+		if (error)
+			res.send(JSON.stringify({"status": 500, "error" : error}));
+		else 
+			res.send(JSON.stringify({"status": 200, "success": true, "error": null, "response": results}));
+			
+	});    // 以上代碼錯誤可以再寫更多 debug時可以更輕鬆 
+});
+
 module.exports = router;

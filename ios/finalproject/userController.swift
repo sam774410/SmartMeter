@@ -34,6 +34,14 @@ struct METER_DATAMODEL {
     var meterSuspendType: String?
 }
 
+
+struct MONTH_FEE {
+    
+    var MeterID: String?
+    var MonthUsage: String?
+    var MonthFee: String?
+}
+
 class USER_API {
     
     let log = SwiftyBeaver.self
@@ -505,6 +513,56 @@ class USER_API {
                 
                 self.log.debug("user recovery meter apply fail")
                 completion(isSuccess)
+            }
+        }
+    }
+    
+    func user_monthFee(keys: [String: Any], completion: @escaping([MONTH_FEE], Bool, [Double]) -> ()) {
+        
+        var isSuccess = false
+        var totalUsage: Double = 0.0
+        var totalFee: Double = 0.0
+        Alamofire.request(link!+"/users/month_fee", method: .post, parameters: keys, encoding: URLEncoding.default, headers: nil).responseJSON { (response) in
+            
+            self.log.debug(response.result.value)
+            
+            let jsonResult: JSON = JSON(response.result.value!)
+            self.log.debug(jsonResult)
+            
+            if jsonResult["status"] == 200 {
+                
+                var monthFee = [MONTH_FEE]()
+                
+                isSuccess = true
+                //query success
+                self.log.info("query month fee successfully")
+                
+               
+                for i in 0..<jsonResult["response"][0].count {
+                    
+                    var item = MONTH_FEE()
+                    
+                    item.MeterID = jsonResult["response"][0][i]["meterID"].stringValue
+                    item.MonthUsage = jsonResult["response"][0][i]["MonthUsage"].stringValue
+                    item.MonthFee = jsonResult["response"][0][i]["MonthFee"].stringValue
+                    
+                    monthFee.append(item)
+                    
+                    totalUsage += jsonResult["response"][0][i]["MonthUsage"].doubleValue 
+                    totalFee += jsonResult["response"][0][i]["MonthFee"].doubleValue
+                }
+                
+                completion(monthFee, isSuccess, [totalUsage, totalFee])
+                
+            } else  {
+                
+                isSuccess = false
+                var monthFee = [MONTH_FEE]()
+                
+                //query fail
+                self.log.info("query month fee fail")
+                
+                completion(monthFee, isSuccess, [totalUsage, totalFee])
             }
         }
     }
