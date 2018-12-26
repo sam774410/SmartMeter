@@ -26,26 +26,28 @@ class userPwdUpdateViewController: FormViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        SVProgressHUD.show()
-        // load user info
-        if let acct = UserDefaults.standard.value(forKey: "acct") as? String{
-            log.info("ACCOUNT:\(acct)")
+        DispatchQueue.main.async {
             
-            self.user.userAcct = acct
-            
-            let parameters = ["Account": user.userAcct!] as [String: Any]
-            USER_API().user_query(keys: parameters) { (userdata) in
+            SVProgressHUD.show()
+            // load user info
+            if let acct = UserDefaults.standard.value(forKey: "acct") as? String{
+                self.log.info("ACCOUNT:\(acct)")
                 
-                self.log.info(userdata)
+                self.user.userAcct = acct
                 
-                self.user.userPwd = userdata[5]
-                
-                self.log.info(self.user.userPwd)
-                self.setUp(user: self.user)
-                SVProgressHUD.dismiss()
+                let parameters = ["Account": self.user.userAcct!] as [String: Any]
+                USER_API().user_query(keys: parameters) { (userdata) in
+                    
+                    self.log.info(userdata)
+                    
+                    self.user.userPwd = userdata[5]
+                    
+                    self.log.info(self.user.userPwd)
+                    self.setUp(user: self.user)
+                    SVProgressHUD.dismiss()
+                }
             }
         }
-        
     }
     
     
@@ -167,26 +169,28 @@ class userPwdUpdateViewController: FormViewController {
                         let cancelAction = CDAlertViewAction(title: "取消", textColor: .red)
                         let okAction = CDAlertViewAction(title: "確定", handler: { (CDAlertViewAction) -> Bool in
                             
-                            let parameters = ["Account": self.user.userAcct!, "Password": Encoding().base64Encoding(str: self.user.userPwd!)] as [String: Any]
-                            
-                            USER_API().user_updatePwd(keys: parameters, completion: { (isOk) in
+                            DispatchQueue.main.async {
                                 
-                                if isOk {
+                                let parameters = ["Account": self.user.userAcct!, "Password": Encoding().base64Encoding(str: self.user.userPwd!)] as [String: Any]
+
+                                USER_API().user_updatePwd(keys: parameters, completion: { (isOk) in
                                     
-                                    let banner = NotificationBanner(title: "密碼更新成功", style: .success)
-                                    banner.show()
-                                    
-                                    //keep user info
-                                    UserDefaults.standard.set(self.user.userPwd!, forKey: "pwd")
-                                    self.navigationController?.popViewController(animated: true)
-                                    
-                                } else {
-                                    
-                                    let banner = NotificationBanner(title: "請稍後再試", style: BannerStyle.warning)
-                                    banner.show()
-                                }
-                            })
-                            
+                                    if isOk {
+                                        
+                                        let banner = NotificationBanner(title: "密碼更新成功", style: .success)
+                                        banner.show()
+                                        
+                                        //keep user info
+                                        UserDefaults.standard.set(self.user.userPwd!, forKey: "pwd")
+                                        self.navigationController?.popViewController(animated: true)
+                                        
+                                    } else {
+                                        
+                                        let banner = NotificationBanner(title: "請稍後再試", style: BannerStyle.warning)
+                                        banner.show()
+                                    }
+                                })
+                            }
                             return true
                         })
                         alert.add(action: cancelAction)

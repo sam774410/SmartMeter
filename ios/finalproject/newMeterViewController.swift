@@ -94,21 +94,22 @@ class newMeterViewController: FormViewController {
                     // do something
 
                     //UserID : user auto id , ID: meter id
-                    let parameters = ["UserID": self.userID!, "ID": self.meterID!, "ChargeType": self.chargeType] 
-                    
-                
-                    USER_API().user_addMeter(keys: parameters, completion: { (isSuccess) in
+                    DispatchQueue.main.async {
                         
-                        if isSuccess {
+                        let parameters = ["UserID": self.userID!, "ID": self.meterID!, "ChargeType": self.chargeType]
+                        
+                        USER_API().user_addMeter(keys: parameters, completion: { (isSuccess) in
                             
-                            USER_API().user_addContract(keys: parameters, completion: { (isSuccess) in
+                            if isSuccess {
                                 
-                                
-                            })
-                            self.navigationController?.popViewController(animated:  true)
-                        }
-                    })
-                    
+                                USER_API().user_addContract(keys: parameters, completion: { (isSuccess) in
+                                    
+                                    
+                                })
+                                self.navigationController?.popViewController(animated:  true)
+                            }
+                        })
+                    }
                 } else {
                     
                     ALERT().alert(title: "錯誤", subTitle: "請確實輸入電號", type: CDAlertViewType.error)

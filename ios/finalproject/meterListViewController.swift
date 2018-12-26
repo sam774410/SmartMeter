@@ -17,6 +17,7 @@ class meterListViewController: UIViewController, UITableViewDataSource, UITableV
 {
     
     let log = MYLOG().log
+    var overlay : UIView?
     
     @IBOutlet weak var myTableView: UITableView!
     var meterDataArray = [METER_DATAMODEL]()
@@ -34,11 +35,14 @@ class meterListViewController: UIViewController, UITableViewDataSource, UITableV
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
-        let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath) as! meterListTableViewCell
-        
-        cell.setUpCell(meter_id: meterDataArray[indexPath.row].meterID!, meter_address: meterDataArray[indexPath.row].meterAddress!, meter_status: meterDataArray[indexPath.row].meterStatus!)
-        
-        return cell
+        if(indexPath.row > meterDataArray.count-1){
+            return UITableViewCell()
+        }
+        else{
+            let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath) as! meterListTableViewCell
+            cell.setUpCell(meter_id: meterDataArray[indexPath.row].meterID!, meter_address: meterDataArray[indexPath.row].meterAddress!, meter_status: meterDataArray[indexPath.row].meterStatus!)
+            return cell
+        }
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
@@ -166,25 +170,37 @@ class meterListViewController: UIViewController, UITableViewDataSource, UITableV
         let refresher = PullToRefresh()
         myTableView.addPullToRefresh(refresher) {
             
-            self.meterDataArray = [METER_DATAMODEL]()
-            self.loadMeterData()
-            self.myTableView.endAllRefreshing()
+            DispatchQueue.main.async {
+                
+                self.meterDataArray = [METER_DATAMODEL]()
+                self.loadMeterData()
+                self.myTableView.endAllRefreshing()
+            }
         }
         
-        //get user auto id
-        
+        //get user auto id perfprom query
         if let uID = UserDefaults.standard.value(forKey: "id") as? String {
             
             self.userID = Int(uID)
             log.debug("USER AUTO ID： \(userID!)")
+            
+            DispatchQueue.main.async {
+                
+                self.meterDataArray = [METER_DATAMODEL]()
+                self.loadMeterData()
+            }
         }
+        
        
     }
     
     override func viewWillAppear(_ animated: Bool) {
         
-        meterDataArray = [METER_DATAMODEL]()
-        loadMeterData()
+//        DispatchQueue.main.async {
+//
+//            self.meterDataArray = [METER_DATAMODEL]()
+//            self.loadMeterData()
+//        }
     }
     
     
@@ -197,6 +213,13 @@ class meterListViewController: UIViewController, UITableViewDataSource, UITableV
     func loadMeterData() {
         
         SVProgressHUD.show()
+        
+        self.overlay = UIView(frame: self.view.frame)
+        self.overlay!.backgroundColor = UIColor.black
+        self.overlay!.alpha = 0.5
+        
+        self.view.addSubview(self.overlay!)
+
         // load user info
         if let acct = UserDefaults.standard.value(forKey: "acct") as? String{
             log.info("ACCOUNT:\(acct)")
@@ -226,6 +249,7 @@ class meterListViewController: UIViewController, UITableViewDataSource, UITableV
                             
                             self.myTableView.reloadData()
                             SVProgressHUD.dismiss()
+                            self.overlay?.removeFromSuperview()
                         }
                     } else {
                         
@@ -242,10 +266,18 @@ class meterListViewController: UIViewController, UITableViewDataSource, UITableV
                         DispatchQueue.main.async {
                             
                             SVProgressHUD.dismiss()
+                            self.overlay?.removeFromSuperview()
                         }
                     }
                 })
                 
+            }
+        }else {
+            
+            DispatchQueue.main.async {
+                
+                SVProgressHUD.dismiss()
+                self.overlay?.removeFromSuperview()
             }
         }
     }

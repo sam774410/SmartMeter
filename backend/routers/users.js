@@ -187,7 +187,7 @@ var options = {
 router.post('/retrieveMeter', function(req, res) {
 
 	console.log("Query user meter");
-	console.log(req);
+	console.log(req.body);
 	var UserID = req.body.UserID;
    
 	req.con.query("SELECT * FROM meter WHERE UserID = " +UserID+ " ", function(error, results, fields){
@@ -457,25 +457,11 @@ router.post('/recovery_meter', function(req, res) {
 	});
 });
 
-//get_more_information (傳入meter)
-router.get('/get_more_information', function(req, res) {
-
-	var meterID = req.body.meterID; 
-	req.con.query('SELECT C.ID ,U.FirstName ,U.LastName ,M.Address ,U.ContactAddress ,S.ApplyDate ,S.StartDate ,S.Status ,U.ContactAddress ,S.EndDate FROM suspendapply S,contract C,user U,meter M WHERE S.ContractID = C.ID AND M.ID="'+meterID+'" AND C.MeterID=M.ID AND U.ID=M.UserID ', function (error, results, fields) {
-	 	if (error)
-	  		res.send(JSON.stringify({"status": 500, "error" : error}));
-	 	if (results.length > 0)
-	  		res.send(JSON.stringify({"status": 200, "success": true, "error": null, "response": results}));
-	 	else
-	  		res.send(JSON.stringify({"status": 204, "success": false, "error": null, "response": "empty result"}));
-	});    // 以上代碼錯誤可以再寫更多 debug時可以更輕鬆
-});
-
-//query suspendapply info
-//管理者 req 是使用者發送要求，而res為回覆，參數後可直接改成要回覆的東西 
 router.get('/suspendapply', function(req, res) {
 
-	req.con.query('SELECT S.ID,LastName,FirstName,ContractID,M.Address,S.Status,S.ApplyDate FROM suspendapply S,contract C,user U,meter M WHERE S.ContractID = C.ID AND C.UserID = U.ID AND M.ID=C.MeterID ', function (error, results, fields) {
+	console.log('query all suspendapply');
+	
+	req.con.query('SELECT S.ID,LastName,FirstName,ContractID,M.Address,S.Status,S.ApplyDate,S.Type FROM suspendapply S,contract C,user U,meter M WHERE S.ContractID = C.ID AND C.UserID = U.ID AND M.ID=C.MeterID AND C.EndDate is NULL AND S.CancelDate is NULL', function (error, results, fields) {
 		if (error)
 			res.send(JSON.stringify({"status": 500, "error" : error}));
 		if (results.length > 0)
@@ -485,11 +471,26 @@ router.get('/suspendapply', function(req, res) {
 	});    // 以上代碼錯誤可以再寫更多 debug時可以更輕鬆
 });
 
+router.post('/more_information', function(req, res) {
+
+	console.log('get user more info');
+	var contractID = req.body.contractID; 
+	req.con.query('SELECT C.ID,U.FirstName ,U.LastName ,M.Address ,U.ContactAddress ,S.ApplyDate ,S.StartDate ,S.Status ,U.ContactAddress ,S.EndDate, U.ContactPhoneNum FROM suspendapply S,contract C,user U,meter M WHERE S.ContractID = C.ID AND C.ID="'+contractID+'" AND C.MeterID=M.ID AND U.ID=M.UserID AND C.EndDate is NULL AND S.Status != -1', function (error, results, fields) {
+	 	if (error)
+	  		res.send(JSON.stringify({"status": 500, "error" : error}));
+	 	else
+	  		res.send(JSON.stringify({"status": 200, "success": true, "error": null, "response": results}));
+	});   
+});
+
+
 router.post('/month_fee', function(req, res) {
 	//下面這串不用理會  單純原本用下ＳＱＬ想找出 電表跟費用
 	//SELECT MonthFee FROM monthfee M,contract C WHERE  Year='"+Year+"' AND Month='"+Month+"' AND C.UserID='"+userID+"' AND C.ID=M.ContractID
 	//var Year = feeDate.getFullYear();
 	//var Month = feeDate.getMonth();
+	console.log('get user month fee');
+	console.log(req.body);
 
 	var userID = req.body.userID;
 	var feeDate = new Date();		//取出日期時間
@@ -502,6 +503,69 @@ router.post('/month_fee', function(req, res) {
 			res.send(JSON.stringify({"status": 200, "success": true, "error": null, "response": results}));
 			
 	});    // 以上代碼錯誤可以再寫更多 debug時可以更輕鬆 
+});
+
+
+//audit_suspendapply
+router.post('/audit_suspendapply', function(req, res) {
+	//接收傳入的meterID 找出contract 再找出suspendapply的status
+	
+	console.log('audit_suspendapply');
+	console.log(req.body);
+	
+	var contractID = req.body.contractID;
+	var Status= req.body.Status;
+	var Type = req.body.Type;
+
+	var applyDate = new Date();		//取出日期時間
+	applyDate=applyDate.toLocaleDateString();		//將日期取到日就好
+
+	
+	//如果Type==1 則為斷電申請
+	if(Type==1){
+
+		//如果Status == 2 則為同意斷電，將 meter 的 Status改為 -1
+		if (Status == 2){
+			console.log('first work');
+			req.con.query("UPDATE meter SET Status = -1 WHERE ID = (SELECT MeterID FROM contract WHERE ID='"+contractID+"') " , function (error, results, fields) {
+				if (error)
+					res.send(JSON.stringify({"status": 500, "error" : error}));
+				else{
+					console.log('Hi');
+					req.con.query("UPDATE suspendapply SET Status = '"+Status+"',ValidateDate='"+applyDate+"' WHERE ContractID = '"+contractID+"' AND CancelDate IS NULL " , function (error, results, fields) {
+					if (error)
+						res.send(JSON.stringify({"status": 500, "error" : error}));
+					else{
+						console.log('Hi');
+						res.send(JSON.stringify({"status": 200, "success": true, "error": null, "response": results}));
+					}
+					}); 
+				}
+				// 不能傳兩次錯誤訊息	res.send(JSON.stringify({"status": 200, "success": true, "error": null, "response": results}));
+			});  
+		}
+		//如果Status == -2 則為不同意斷電，將 meter 的 Status改為 1
+		else if(Status == -2){
+			console.log('second work');
+			req.con.query("UPDATE meter SET Status = 1 WHERE ID = (SELECT MeterID FROM contract WHERE ID='"+contractID+"') " , function (error, results, fields) {
+				if (error)
+					res.send(JSON.stringify({"status": 500, "error" : error}));
+				else{
+					console.log('Hi');
+					req.con.query("UPDATE suspendapply SET Status = '"+Status+"',ValidateDate='"+applyDate+"' WHERE ContractID = '"+contractID+"' AND CancelDate IS NULL " , function (error, results, fields) {
+						if (error)
+							res.send(JSON.stringify({"status": 500, "error" : error}));
+						else{
+							res.send(JSON.stringify({"status": 200, "success": true, "error": null, "response": results}));
+						}
+					}); 
+				}
+				// 不能傳兩次錯誤訊息	res.send(JSON.stringify({"status": 200, "success": true, "error": null, "response": results}));
+			});
+		}
+	}
+	//如果Type ==    為復電申請 尚未寫
+
 });
 
 module.exports = router;

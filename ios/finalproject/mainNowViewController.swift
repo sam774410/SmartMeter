@@ -21,11 +21,16 @@ class mainNowViewController: UIViewController, UITableViewDelegate, UITableViewD
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
-        let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath) as! mainNowTableViewCell
-        
-        cell.setUpCell(iconName: "milometer", meterID: monthFeeArray[indexPath.row].MeterID!, usage: monthFeeArray[indexPath.row].MonthUsage!, fee: monthFeeArray[indexPath.row].MonthFee!)
-       
-        return cell
+        if(indexPath.row > monthFeeArray.count-1){
+            return UITableViewCell()
+        } else {
+            
+            let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath) as! mainNowTableViewCell
+            
+            cell.setUpCell(iconName: "milometer", meterID: monthFeeArray[indexPath.row].MeterID!, usage: monthFeeArray[indexPath.row].MonthUsage!, fee: monthFeeArray[indexPath.row].MonthFee!)
+            
+            return cell
+        }
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
@@ -37,6 +42,7 @@ class mainNowViewController: UIViewController, UITableViewDelegate, UITableViewD
     let log = MYLOG().log
     var userID: Int?
     var monthFeeArray = [MONTH_FEE]()
+    var overlay : UIView?
     
     @IBOutlet weak var total_usage_label: UILabel!
     @IBOutlet weak var total_fee_label: UILabel!
@@ -57,21 +63,17 @@ class mainNowViewController: UIViewController, UITableViewDelegate, UITableViewD
         myTableView.delegate = self
         myTableView.tableFooterView = UIView()
         
-//        let refresher = PullToRefresh()
-//        myTableView.addPullToRefresh(refresher) {
-//
-//            self.monthFeeArray = [MONTH_FEE]()
-//            self.totalUsage = 0.0
-//            self.totalFee = 0.0
-//            self.get_userMonthFee()
-//            self.myTableView.endAllRefreshing()
-//        }
+        let refresher = PullToRefresh()
+        myTableView.addPullToRefresh(refresher) {
+
+            self.monthFeeArray = [MONTH_FEE]()
+            self.totalUsage = 0.0
+            self.totalFee = 0.0
+            self.get_userMonthFee()
+            self.myTableView.endAllRefreshing()
+        }
         
-    }
-    
-    override func viewWillAppear(_ animated: Bool) {
-        
-        
+        //start query fee
         if let acct = UserDefaults.standard.value(forKey: "acct") as? String{
             log.info("ACCOUNT:\(acct)")
             
@@ -84,21 +86,29 @@ class mainNowViewController: UIViewController, UITableViewDelegate, UITableViewD
                 
                 if let uID = UserDefaults.standard.value(forKey: "id") as? String {
                     
-                    self.userID = Int(uID)
-                    self.log.debug("USER AUTO ID： \(self.userID!)")
-                    
-                    self.monthFeeArray = [MONTH_FEE]()
-                    self.get_userMonthFee()
+                    DispatchQueue.main.async {
+                        
+                        self.userID = Int(uID)
+                        self.log.debug("USER AUTO ID： \(self.userID!)")
+                        self.monthFeeArray = [MONTH_FEE]()
+                        self.get_userMonthFee()
+                    }
                 }
             }
         }
-
-       
     }
+    
+    
     
     func get_userMonthFee(){
         
         SVProgressHUD.show()
+        self.overlay = UIView(frame: self.view.frame)
+        self.overlay!.backgroundColor = UIColor.black
+        self.overlay!.alpha = 0.5
+        
+        self.view.addSubview(self.overlay!)
+
         
         USER_API().user_monthFee(keys: ["userID" : userID!]) { (response, isSuccess, usageFee) in
             
@@ -113,6 +123,7 @@ class mainNowViewController: UIViewController, UITableViewDelegate, UITableViewD
                     self.total_usage_label.text = "\(round(usageFee[0]*100)/100)度"
                     self.total_fee_label.text = "\(round(usageFee[1]*100)/100)元"
                     SVProgressHUD.dismiss()
+                    self.overlay?.removeFromSuperview()
                 }
                 
                 if self.monthFeeArray.isEmpty {
@@ -130,6 +141,7 @@ class mainNowViewController: UIViewController, UITableViewDelegate, UITableViewD
                     DispatchQueue.main.async {
                         
                         SVProgressHUD.dismiss()
+                        self.overlay?.removeFromSuperview()
                     }
                 }
                 
@@ -137,6 +149,7 @@ class mainNowViewController: UIViewController, UITableViewDelegate, UITableViewD
             } else {
                 
                 SVProgressHUD.dismiss()
+                self.overlay?.removeFromSuperview()
             }
         }
     }

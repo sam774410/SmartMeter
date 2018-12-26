@@ -148,34 +148,38 @@ class USER_API {
         
         var user: [String] = []
         
-        Alamofire.request(link!+"/users/id", method: .post, parameters: keys, encoding: URLEncoding.default, headers: nil).responseJSON { (response) in
+        DispatchQueue.main.async {
             
-            self.log.debug(response.result.value)
-            
-            let jsonResult: JSON = JSON(response.result.value!)
-            
-            if jsonResult["status"] == 200 {
+            Alamofire.request(self.link!+"/users/id", method: .post, parameters: keys, encoding: URLEncoding.default, headers: nil).responseJSON { (response) in
                 
-                self.log.debug("query successfully")
-                self.log.info(jsonResult["response"])
+                self.log.debug(response.result.value)
                 
-                user.append(jsonResult["response"][0]["FirstName"].string!)
-                user.append(jsonResult["response"][0]["LastName"].string!)
-                user.append(jsonResult["response"][0]["EmailAddress"].string!)
-                user.append(jsonResult["response"][0]["ContactPhoneNum"].string!)
-                user.append(jsonResult["response"][0]["ContactAddress"].string!)
-                user.append(jsonResult["response"][0]["Password"].string!)
-                user.append(jsonResult["response"][0]["Account"].string!)
-                user.append(String(jsonResult["response"][0]["ID"].int!))
+                let jsonResult: JSON = JSON(response.result.value!)
                 
-//                UserDefaults.standard.set(String(jsonResult["response"][0]["ID"].int!), forKey: "id")
-                
-                self.log.warning("user array：\(user)")
-                completion(user)
-            }else {
-                
-                self.log.debug("query fail")
+                if jsonResult["status"] == 200 {
+                    
+                    self.log.debug("query successfully")
+                    self.log.info(jsonResult["response"])
+                    
+                    user.append(jsonResult["response"][0]["FirstName"].string!)
+                    user.append(jsonResult["response"][0]["LastName"].string!)
+                    user.append(jsonResult["response"][0]["EmailAddress"].string!)
+                    user.append(jsonResult["response"][0]["ContactPhoneNum"].string!)
+                    user.append(jsonResult["response"][0]["ContactAddress"].string!)
+                    user.append(jsonResult["response"][0]["Password"].string!)
+                    user.append(jsonResult["response"][0]["Account"].string!)
+                    user.append(String(jsonResult["response"][0]["ID"].int!))
+                    
+                    //                UserDefaults.standard.set(String(jsonResult["response"][0]["ID"].int!), forKey: "id")
+                    
+                    self.log.warning("user array：\(user)")
+                    completion(user)
+                }else {
+                    
+                    self.log.debug("query fail")
+                }
             }
+
         }
     }
     
@@ -259,35 +263,37 @@ class USER_API {
     
     
     func user_queryMeter(keys: [String: Any], completion: @escaping([METER_DATAMODEL], Bool) -> () ) {
-    
-        Alamofire.request(link!+"/users/retrieveMeter", method: .post, parameters: keys, encoding: URLEncoding.default, headers: nil).responseJSON { (response) in
+        
+        DispatchQueue.main.async {
             
-            let jsonResult: JSON = JSON(response.result.value!)
-            self.log.debug(jsonResult)
-            
-            var isSuccess = false
-            
-            if jsonResult["status"] == 200 {
+            Alamofire.request(self.link!+"/users/retrieveMeter", method: .post, parameters: keys, encoding: URLEncoding.default, headers: nil).responseJSON { (response) in
                 
-                var meterData = [METER_DATAMODEL]()
+                let jsonResult: JSON = JSON(response.result.value!)
+                self.log.debug(jsonResult)
                 
-                isSuccess = true
-                //query success
-                self.log.info("query meter successfully")
+                var isSuccess = false
                 
+                if jsonResult["status"] == 200 {
+                    
+                    var meterData = [METER_DATAMODEL]()
+                    
+                    isSuccess = true
+                    //query success
+                    self.log.info("query meter successfully")
+                    
                     for i in 0...jsonResult["response"].count-1 {
                         
                         var item = METER_DATAMODEL()
-
+                        
                         item.meterID = jsonResult["response"][i]["ID"].stringValue
                         item.meterAddress = jsonResult["response"][i]["Address"].stringValue
                         item.meterStatus = jsonResult["response"][i]["Status"].stringValue
-
-                        meterData.append(item)                      
+                        
+                        meterData.append(item)
                     }
-                
+                    
                     completion(meterData, isSuccess)
-                
+                    
                 } else if jsonResult["status"] == 204  {
                     
                     isSuccess = false
@@ -295,20 +301,21 @@ class USER_API {
                     
                     //query fail
                     self.log.info("query meter empty")
-
+                    
                     completion(meterData, isSuccess)
                 }else  {
-                
+                    
                     isSuccess = false
                     var meterData = [METER_DATAMODEL]()
-                
+                    
                     //query fail
                     self.log.info("query meter fail")
-                
+                    
                     completion(meterData, isSuccess)
                 }
             }
         }
+    }
     
     func user_addMeter(keys: [String: Any], completion: @escaping(Bool) -> ()) {
         

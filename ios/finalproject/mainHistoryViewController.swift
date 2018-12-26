@@ -33,26 +33,29 @@ class mainHistoryViewController: UIViewController {
         
         view.endEditing(true)
         
-        SVProgressHUD.show()
-        PLANT_API().plant_historySupply(keys: ["SupplyDate": self.myDate]) { (result, isSuccess) in
+        DispatchQueue.main.async {
             
-            if isSuccess {
+            SVProgressHUD.show()
+            PLANT_API().plant_historySupply(keys: ["SupplyDate": self.myDate]) { (result, isSuccess) in
                 
-                self.sourceInfo = []
-                self.totalInfo = []
-                
-                for i in 0...4 {
+                if isSuccess {
                     
-                    self.sourceInfo.append(result[i].plantPowerSource!)
-                    self.totalInfo.append(result[i].plantSupply!)
+                    self.sourceInfo = []
+                    self.totalInfo = []
+                    
+                    for i in 0...4 {
+                        
+                        self.sourceInfo.append(result[i].plantPowerSource!)
+                        self.totalInfo.append(result[i].plantSupply!)
+                    }
+                    self.log.debug(self.totalInfo)
+                    SVProgressHUD.dismiss()
+                    self.updateChart(info: self.totalInfo, descriptin: self.sourceInfo)
+                } else {
+                    
+                    ALERT().banner(tittle: "請稍後再試", subtitle: "", style: BannerStyle.warning)
+                    SVProgressHUD.dismiss()
                 }
-                self.log.debug(self.totalInfo)
-                SVProgressHUD.dismiss()
-                self.updateChart(info: self.totalInfo, descriptin: self.sourceInfo)
-            } else {
-                
-                ALERT().banner(tittle: "請稍後再試", subtitle: "", style: BannerStyle.warning)
-                SVProgressHUD.dismiss()
             }
         }
     }
@@ -97,6 +100,7 @@ class mainHistoryViewController: UIViewController {
     
     func updateChart(info: [Double], descriptin: [String]){
         
+        barChart.noDataText = "loading..."
         barChart.animate(xAxisDuration: 1.5, yAxisDuration: 1.0)
         
         var axisFormatDelgate: IAxisValueFormatter?
