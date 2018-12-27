@@ -72,7 +72,7 @@ class USER_API {
                     
                     self.log.info("user register successfully")
                     
-                    let banner = NotificationBanner(title: "註冊成功", subtitle: "歡迎使用張文翰", style: .success)
+                    let banner = NotificationBanner(title: "註冊成功", subtitle: "歡迎使用smart meter", style: .success)
                     banner.show()
                     
                     isSuccess = true
@@ -334,6 +334,12 @@ class USER_API {
                 
                 isSuccess = true
                 completion(isSuccess)
+            } else if jsonResult["status"] == 402 {
+                
+                ALERT().banner(tittle: "查無此電號", subtitle: "請確認電號", style: BannerStyle.danger)
+                
+                completion(isSuccess)
+                
             } else if jsonResult["status"] == 403 {
                 
                 ALERT().banner(tittle: "此電號已註冊", subtitle: "請確認電號", style: BannerStyle.danger)
@@ -399,9 +405,38 @@ class USER_API {
     }
     
     
-    func user_querySuspendStatus(keys: [String: Any], completion: @escaping([String])->()) {
+    func user_applyQuerySuspendStatus(keys: [String: Any], completion: @escaping([String])->()) {
         
-        Alamofire.request(link!+"/users/post_suspendapply_status", method: .post, parameters: keys, encoding: URLEncoding.default, headers: nil).responseJSON { (response) in
+        Alamofire.request(link!+"/users/apply_suspendapply_status", method: .post, parameters: keys, encoding: URLEncoding.default, headers: nil).responseJSON { (response) in
+            
+            self.log.debug(response.result.value)
+            
+            let jsonResult: JSON = JSON(response.result.value!)
+            
+            if jsonResult["status"] == 200 {
+                
+                let last:Int = jsonResult["response"].count-1
+                self.log.debug("query meter suspend successfully \(keys)")
+                var result: [String] = []
+                
+                result.append(jsonResult["response"][last]["Status"].stringValue)
+                result.append(jsonResult["response"][last]["Type"].stringValue)
+                
+                self.log.debug(result)
+                
+                completion(result)
+            }  else {
+                
+                self.log.debug("query meter suspend fail")
+                
+                completion([])
+            }
+        }
+    }
+    
+    func user_recoveryQuerySuspendStatus(keys: [String: Any], completion: @escaping([String])->()) {
+        
+        Alamofire.request(link!+"/users/recovery_suspendapply_status", method: .post, parameters: keys, encoding: URLEncoding.default, headers: nil).responseJSON { (response) in
             
             self.log.debug(response.result.value)
             

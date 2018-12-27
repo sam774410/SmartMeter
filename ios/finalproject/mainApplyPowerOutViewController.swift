@@ -273,6 +273,7 @@ class mainApplyPowerOutViewController: UIViewController {
 
         datePicker = UIDatePicker()
         datePicker?.datePickerMode = .date
+        datePicker?.minimumDate = Calendar.current.date(byAdding: .day, value: +1, to: Date())
         datePicker?.addTarget(self, action: #selector(mainApplyPowerOutViewController.dateChanged(datePicker:)), for: .valueChanged)
         let tapGesture = UITapGestureRecognizer(target: self, action: #selector(mainApplyPowerOutViewController.tapView(gestureRecognizer:)))
         view.addGestureRecognizer(tapGesture)
@@ -331,29 +332,37 @@ class mainApplyPowerOutViewController: UIViewController {
             
             let parameters = ["meterID": meterID] as [String: Any]
             
-            USER_API().user_querySuspendStatus(keys: parameters) { (response) in
+            USER_API().user_applyQuerySuspendStatus(keys: parameters) { (response) in
                 
-                self.log.warning(response)
+                self.log.error("TYPE \(response[1])")
                 
                 if response[1] == "2" {
                     
                     //申請復電
-                    
                     self.isRecoveryMeter = true
                     
-                    if response[0] == "0" {
+                    DispatchQueue.main.async {
                         
-                        self.stepViewSetUp(curretStep: 1)
-                        //self.realCancel_Btn_Outlet.isHidden = true
-                    } else if response[0] == "1" {
-                        
-                        self.stepViewSetUp(curretStep: 2)
-                        self.realCancel_Btn_Outlet.isHidden = true
-                    }else if response[0] == "2" {
-                        
-                        self.stepViewSetUp(curretStep: 4)
-                        self.realCancel_Btn_Outlet.isHidden = true
+                        USER_API().user_recoveryQuerySuspendStatus(keys: parameters, completion: { (responsed) in
+                            
+                            self.log.error(" recovery TYPE \(responsed[1])")
+                            
+                            if responsed[0] == "0" {
+                                
+                                self.stepViewSetUp(curretStep: 1)
+                                //self.realCancel_Btn_Outlet.isHidden = true
+                            } else if responsed[0] == "1" {
+                                
+                                self.stepViewSetUp(curretStep: 2)
+                                self.realCancel_Btn_Outlet.isHidden = true
+                            }else if responsed[0] == "2" {
+                                
+                                self.stepViewSetUp(curretStep: 4)
+                                self.realCancel_Btn_Outlet.isHidden = true
+                            }
+                        })
                     }
+                    
                 } else {
                     
                     //申請斷電

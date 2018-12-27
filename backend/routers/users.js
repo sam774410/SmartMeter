@@ -224,13 +224,20 @@ router.put('/update_meter', function(req, res){
 			res.end();
 			return;
 		}
-	  		
+		//	res.send(JSON.stringify({"status": 402, "error" : '電表不存在，請重新輸入'}));
+		
+		//}		
 	 	//電表存在 接著比對是否有人使用 
 	 	else{  
+			if(results[0] == null){
+				console.log('Oh nonononono');
+				res.send(JSON.stringify({"status": 402, "error" : '電表不存在，請重新輸入'}));
+				res.end();
+				return;
+			}
 			//  試著印出 status值 console.log(results[0]["Status"]);
-	
 			//meter的Status==-2 表示該電表尚未遭到綁定 所以可以進行綁定動作
-			if(results[0]["Status"] == -2){    
+			else if(results[0]["Status"] == -2){    
 				//這邊的UserID指的是meter裡面的UseID  , 而ID指的是 meter的ID  所以比對前端meter的ID後 , 將UserID資訊update
 				req.con.query("UPDATE meter SET UserID = '"+UserID+"' ,Status = 1 WHERE ID = '"+ID+"' ", function(error, results, fields){
 					if (error){
@@ -318,12 +325,25 @@ router.post('/stop_meter', function(req, res) {
 });
 
 
-//post_suspendapply_status
-router.post('/post_suspendapply_status', function(req, res) {
+//apply_suspendapply_status
+router.post('/apply_suspendapply_status', function(req, res) {
 	//接收傳入的meterID 找出contract 再找出suspendapply的status
 	var meterID = req.body.meterID;
    
-	req.con.query("Select  c.Status, c.Type from meter a, contract b, suspendapply c where a.Id = b.MeterID and b.ID = c.ContractID and b.MeterID = '"+ meterID +"' and b.EndDate is null and c.Status != -1" , function (error, results, fields) {
+	req.con.query("Select  c.Status, c.Type from meter a, contract b, suspendapply c where a.Id = b.MeterID and b.ID = c.ContractID and b.MeterID = '"+ meterID +"' and b.EndDate is null and c.Status != -1  " , function (error, results, fields) {
+		if (error)
+	  		res.send(JSON.stringify({"status": 500, "error" : error}));
+	 	else
+	  		res.send(JSON.stringify({"status": 200, "success": true, "error": null, "response": results}));
+	});    // 以上代碼錯誤可以再寫更多 debug時可以更輕鬆 
+});
+
+//recovery_suspendapply_status
+router.post('/recovery_suspendapply_status', function(req, res) {
+	//接收傳入的meterID 找出contract 再找出suspendapply的status
+	var meterID = req.body.meterID;
+   
+	req.con.query("Select  c.Status, c.Type from meter a, contract b, suspendapply c where a.Id = b.MeterID and b.ID = c.ContractID and b.MeterID = '"+ meterID +"' and b.EndDate is null and c.Status != -1 and c.Type = 2 and c.ValidateDate is null " , function (error, results, fields) {
 		if (error)
 	  		res.send(JSON.stringify({"status": 500, "error" : error}));
 	 	else
@@ -517,6 +537,7 @@ router.post('/audit_suspendapply', function(req, res) {
 	var Status= req.body.Status;
 	var Type = req.body.Type;
 
+	
 	var applyDate = new Date();		//取出日期時間
 	applyDate=applyDate.toLocaleDateString();		//將日期取到日就好
 
@@ -532,7 +553,7 @@ router.post('/audit_suspendapply', function(req, res) {
 					res.send(JSON.stringify({"status": 500, "error" : error}));
 				else{
 					console.log('Hi');
-					req.con.query("UPDATE suspendapply SET Status = '"+Status+"',ValidateDate='"+applyDate+"' WHERE ContractID = '"+contractID+"' AND CancelDate IS NULL " , function (error, results, fields) {
+					req.con.query("UPDATE suspendapply SET Status = '"+Status+"',ValidateDate='"+applyDate+"' WHERE ContractID = '"+contractID+"' AND CancelDate IS NULL AND ValidateDate IS NULL"  , function (error, results, fields) {
 					if (error)
 						res.send(JSON.stringify({"status": 500, "error" : error}));
 					else{
@@ -552,7 +573,7 @@ router.post('/audit_suspendapply', function(req, res) {
 					res.send(JSON.stringify({"status": 500, "error" : error}));
 				else{
 					console.log('Hi');
-					req.con.query("UPDATE suspendapply SET Status = '"+Status+"',ValidateDate='"+applyDate+"' WHERE ContractID = '"+contractID+"' AND CancelDate IS NULL " , function (error, results, fields) {
+					req.con.query("UPDATE suspendapply SET Status = '"+Status+"',ValidateDate='"+applyDate+"' WHERE ContractID = '"+contractID+"' AND CancelDate IS NULL AND ValidateDate IS NULL " , function (error, results, fields) {
 						if (error)
 							res.send(JSON.stringify({"status": 500, "error" : error}));
 						else{
@@ -564,8 +585,5 @@ router.post('/audit_suspendapply', function(req, res) {
 			});
 		}
 	}
-	//如果Type ==    為復電申請 尚未寫
-
-});
 
 module.exports = router;

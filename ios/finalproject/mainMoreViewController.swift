@@ -15,7 +15,7 @@ class mainMoreViewController: UIViewController, UITableViewDataSource, UITableVi
     
     
     let log = MYLOG().log
-    let funcArray = ["新增電號", "個人資料管理", "密碼變更", "版本", "登出"]
+    let funcArray = ["註冊電號", "個人資料管理", "密碼變更", "版本", "登出"]
     let iconArray = ["add-plus-button", "user_update", "key", "round-info-button", "exit"]
     let descriptionArray = ["➢", "➢", "➢", CONFIG().app_version, ""]
     
@@ -72,7 +72,7 @@ class mainMoreViewController: UIViewController, UITableViewDataSource, UITableVi
             let userPwdUpdateVC = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "userPwdUpdateVC")
             
             self.navigationController?.pushViewController(userPwdUpdateVC, animated: true)
-        } else if funcArray[indexPath.row] == "新增電號"{
+        } else if funcArray[indexPath.row] == "註冊電號"{
             
             let newsVC = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "addMeterVC")
             

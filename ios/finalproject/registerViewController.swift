@@ -375,7 +375,7 @@ class registerViewController: FormViewController {
     
     func checkTextRow(text: String, textRow: TextRow) -> Bool {
         
-        if text.count <= 1 {
+        if text.count < 1 {
             
             textRow.value = ""
             //textRow.placeholder = "不可為空"

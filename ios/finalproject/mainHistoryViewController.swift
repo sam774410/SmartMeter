@@ -149,6 +149,7 @@ class mainHistoryViewController: UIViewController {
         
         datePicker?.addTarget(self, action: #selector(mainHistoryViewController.dateChanged(datePicker:)), for: .valueChanged)
         let tapGesture = UITapGestureRecognizer(target: self, action: #selector(mainHistoryViewController.tapView(gestureRecognizer:)))
+        
         view.addGestureRecognizer(tapGesture)
         date_TF.inputView = datePicker
     }

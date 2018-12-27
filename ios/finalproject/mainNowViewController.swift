@@ -72,6 +72,9 @@ class mainNowViewController: UIViewController, UITableViewDelegate, UITableViewD
             self.get_userMonthFee()
             self.myTableView.endAllRefreshing()
         }
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
         
         //start query fee
         if let acct = UserDefaults.standard.value(forKey: "acct") as? String{
@@ -97,8 +100,6 @@ class mainNowViewController: UIViewController, UITableViewDelegate, UITableViewD
             }
         }
     }
-    
-    
     
     func get_userMonthFee(){
         
@@ -128,7 +129,7 @@ class mainNowViewController: UIViewController, UITableViewDelegate, UITableViewD
                 
                 if self.monthFeeArray.isEmpty {
                     
-                    let alert = CDAlertView(title: "尚未新增電表", message: "請至 更多>新增電號 完成新增", type: CDAlertViewType.warning)
+                    let alert = CDAlertView(title: "尚未註冊電號", message: "請至 更多>註冊電號 完成新增", type: CDAlertViewType.warning)
                     
                     let okAction = CDAlertViewAction(title: "立刻前往👉", textColor: .red, handler: { (CDAlertViewAction) -> Bool in
                         

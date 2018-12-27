@@ -92,12 +92,12 @@ class meterListViewController: UIViewController, UITableViewDataSource, UITableV
                 }
             }
             
-            let stopApply = UIAlertAction(title: "廢止用電", style: .default) { (UIAlertAction) in
+            let stopApply = UIAlertAction(title: "註銷電號", style: .default) { (UIAlertAction) in
                 
                 if let meterStatusVC = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "meterStatusVC") as? mainApplyPowerOutViewController{
                     
                     
-                    let alert = CDAlertView(title: "確定廢止用電？", message: "", type: CDAlertViewType.warning)
+                    let alert = CDAlertView(title: "確定註銷電號？", message: "", type: CDAlertViewType.warning)
                     let cancelAction = CDAlertViewAction(title: "取消", textColor: .red)
                     let okAction = CDAlertViewAction(title: "確定", handler: { (CDAlertViewAction) -> Bool in
                         
@@ -113,7 +113,7 @@ class meterListViewController: UIViewController, UITableViewDataSource, UITableV
                                     
                                     if isSuccess {
                                         
-                                        ALERT().banner(tittle: "廢止電表申請成功", subtitle: "電表編號：\(self.meterDataArray[indexPath.row].meterID!)", style: BannerStyle.success)
+                                        ALERT().banner(tittle: "註銷電號申請成功", subtitle: "電號編號：\(self.meterDataArray[indexPath.row].meterID!)", style: BannerStyle.success)
                                         
                                         //reload meter
 
@@ -177,6 +177,9 @@ class meterListViewController: UIViewController, UITableViewDataSource, UITableV
                 self.myTableView.endAllRefreshing()
             }
         }
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
         
         //get user auto id perfprom query
         if let uID = UserDefaults.standard.value(forKey: "id") as? String {
@@ -184,23 +187,14 @@ class meterListViewController: UIViewController, UITableViewDataSource, UITableV
             self.userID = Int(uID)
             log.debug("USER AUTO ID： \(userID!)")
             
-            DispatchQueue.main.async {
-                
-                self.meterDataArray = [METER_DATAMODEL]()
-                self.loadMeterData()
-            }
         }
         
-       
-    }
-    
-    override func viewWillAppear(_ animated: Bool) {
-        
-//        DispatchQueue.main.async {
-//
-//            self.meterDataArray = [METER_DATAMODEL]()
-//            self.loadMeterData()
-//        }
+        DispatchQueue.main.async {
+
+            self.meterDataArray = [METER_DATAMODEL]()
+            self.loadMeterData()
+
+        }
     }
     
     
@@ -253,7 +247,7 @@ class meterListViewController: UIViewController, UITableViewDataSource, UITableV
                         }
                     } else {
                         
-                        let alert = CDAlertView(title: "尚未新增電表", message: "請至 更多>新增電號 完成新增", type: CDAlertViewType.warning)
+                        let alert = CDAlertView(title: "尚未註冊電號", message: "請至 更多>註冊電號 完成新增", type: CDAlertViewType.warning)
                         
                         let okAction = CDAlertViewAction(title: "立刻前往👉", textColor: .red, handler: { (CDAlertViewAction) -> Bool in
                             
@@ -270,7 +264,6 @@ class meterListViewController: UIViewController, UITableViewDataSource, UITableV
                         }
                     }
                 })
-                
             }
         }else {
             
