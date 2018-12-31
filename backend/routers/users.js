@@ -585,5 +585,6 @@ router.post('/audit_suspendapply', function(req, res) {
 			});
 		}
 	}
+});
 
 module.exports = router;

@@ -13,7 +13,7 @@ class CONFIG{
     
     //140.115.82.72:2000
     let default_link: String = "http://140.115.82.72:2000"
-    let backup_link: String = "http://127.0.0.1:2000"
+    //let default_link: String = "http://127.0.0.1:2000"
     
     let app_version: String = "1.0"
 }
