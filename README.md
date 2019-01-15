@@ -72,11 +72,11 @@
 
 * 申請暫停用電(1)
 
-    ![Imgur](https://i.imgur.com/3gqcynd.png?1)
+    ![Imgur](https://i.imgur.com/CU4MeAg.png?1)
 
 
 
-* 申請暫停用電(2) - 選擇起始
+* 申請暫停用電(2) - 選擇起始日期
 
     ![Imgur](https://i.imgur.com/8prvjH8.png?1)
 
@@ -103,6 +103,12 @@
 * 申請暫停用電(6) - 電表狀態改變
 
     ![Imgur](https://i.imgur.com/TQkZG0U.png?1)
+
+
+
+* 申請回復用電(同申請斷電流程)
+
+    ![Imgur](https://i.imgur.com/1EF3fhq.png?1)
 
 
 
